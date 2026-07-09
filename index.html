@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinNova NextGen — Auditoría del Product Backlog con IA | SC-505</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep:#080611; --bg:#100a22; --bg2:#170e30;
+  --snow:#7c5cff; --snow2:#a78bff; --ice:#f1ecff;
+  --accent:#38e0c8; --gold:#f5b544; --mint:#2dd4a7; --pink:#f45b8f; --violet:#8b5cf6;
+  --txt:#ece9f7; --muted:#a89fc6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--deep);font-family:'Inter',sans-serif;color:var(--txt)}
+::selection{background:var(--snow);color:#0a0618}
+
+#snowCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden}
+.track{display:flex;height:100%;will-change:transform}
+.slide{min-width:100vw;height:100vh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:5vh 8vw 12vh;
+  background:
+   radial-gradient(at 15% 20%, rgba(124,92,255,.14) 0%, transparent 45%),
+   radial-gradient(at 85% 80%, rgba(56,224,200,.12) 0%, transparent 45%),
+   linear-gradient(160deg,var(--bg) 0%,var(--deep) 100%);}
+.slide.center{text-align:center;align-items:center}
+.content{position:relative;z-index:5;width:100%;max-width:1260px}
+
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.2;pointer-events:none;z-index:0;will-change:transform}
+
+h1{font-family:'Sora';font-weight:800;line-height:1.02;letter-spacing:-.02em}
+h2{font-family:'Sora';font-weight:700;font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.05;margin-bottom:.35em;letter-spacing:-.01em}
+h3{font-family:'Sora';font-weight:600}
+p{color:var(--muted);line-height:1.6;font-size:clamp(1.12rem,1.9vw,1.42rem)}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:0}
+.grad{background:linear-gradient(120deg,var(--acc,#7c5cff) 10%,var(--acc2,#a78bff) 45%,var(--acc3,#38e0c8) 80%);background-size:250% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.grad .char{background:linear-gradient(150deg,var(--acc,#7c5cff) 15%,var(--acc2,#a78bff) 55%,var(--acc3,#38e0c8) 95%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.kicker{display:inline-flex;align-items:center;gap:.6em;font-family:'Sora';font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  font-size:.92rem;color:var(--acc,var(--snow2));padding:.55em 1.2em;border:1px solid rgba(124,92,255,.4);border-radius:50px;margin-bottom:1.5rem;
+  background:rgba(124,92,255,.06);backdrop-filter:blur(6px)}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--acc,var(--snow));box-shadow:0 0 12px var(--acc,var(--snow))}
+.lead{font-size:clamp(1.25rem,2.4vw,1.7rem);color:var(--ice)}
+
+.gif-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.30;mix-blend-mode:screen;
+  pointer-events:none;z-index:0;filter:saturate(1.35)}
+.gif-corner{position:absolute;border-radius:22px;pointer-events:none;z-index:1;opacity:.9;
+  border:1px solid rgba(255,255,255,.18);filter:saturate(1.25);box-shadow:0 28px 60px rgba(0,0,0,.55)}
+.gif-inline{width:100%;height:180px;object-fit:cover;border-radius:14px;margin-bottom:1rem;filter:saturate(1.2)}
+
+.s1{background:radial-gradient(at 15% 20%,rgba(244,91,143,.2) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(245,181,68,.16) 0%,transparent 48%),linear-gradient(160deg,#241026 0%,#0a0614 100%)}
+.s2{background:radial-gradient(at 80% 15%,rgba(45,212,167,.18) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(124,92,255,.15) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#04120f 100%)}
+.s3{background:radial-gradient(at 15% 20%,rgba(245,181,68,.17) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(244,91,143,.14) 0%,transparent 48%),linear-gradient(160deg,#251c08 0%,#120d04 100%)}
+.s4{background:radial-gradient(at 80% 20%,rgba(139,92,246,.22) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.15) 0%,transparent 48%),linear-gradient(160deg,#1a1030 0%,#0a0618 100%)}
+.s5{background:radial-gradient(at 15% 25%,rgba(56,224,200,.18) 0%,transparent 48%),radial-gradient(at 85% 75%,rgba(245,181,68,.14) 0%,transparent 48%),linear-gradient(160deg,#08251f 0%,#031214 100%)}
+.s6{background:radial-gradient(at 50% 10%,rgba(245,181,68,.2) 0%,transparent 50%),radial-gradient(at 85% 85%,rgba(45,212,167,.15) 0%,transparent 48%),linear-gradient(160deg,#241e07 0%,#110e03 100%)}
+.s7{background:radial-gradient(at 20% 20%,rgba(244,91,143,.2) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(139,92,246,.18) 0%,transparent 48%),linear-gradient(160deg,#260c1c 0%,#12060d 100%)}
+.s8{background:radial-gradient(at 80% 20%,rgba(124,92,255,.2) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.16) 0%,transparent 48%),linear-gradient(160deg,#150e2e 0%,#080513 100%)}
+.s9{background:radial-gradient(at 15% 20%,rgba(45,212,167,.19) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(124,92,255,.16) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#050f13 100%)}
+.s10{background:radial-gradient(at 50% 15%,rgba(245,181,68,.18) 0%,transparent 50%),radial-gradient(at 20% 85%,rgba(244,91,143,.16) 0%,transparent 48%),linear-gradient(160deg,#1c1330 0%,#0a0618 100%)}
+
+.confetti{position:absolute;inset:0;pointer-events:none;z-index:8}
+.confetti i{position:absolute;width:11px;height:15px;border-radius:3px;display:block}
+.hl{color:var(--ice);font-weight:600}
+.char{display:inline-block;will-change:transform}
+
+#emblem{width:clamp(140px,18vw,210px);height:auto;filter:drop-shadow(0 0 30px rgba(124,92,255,.55))}
+#emblem line,#emblem circle,#emblem polygon{stroke:var(--snow2);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hero-title{font-size:clamp(3rem,10vw,7.4rem);margin:.12em 0 .05em;perspective:800px}
+.hero-sub{font-size:clamp(1.4rem,3vw,2.3rem);color:var(--muted)}
+.hero-sub .serif{color:var(--ice);font-size:1.15em}
+.credits{margin-top:2.2rem;color:var(--muted);font-size:1.05rem;line-height:1.7}
+.credits b{color:var(--snow2);font-weight:600}
+
+@keyframes gradFlow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes slideMarquee{to{transform:translateX(-50%)}}
+.marquee{position:absolute;bottom:0;left:0;width:100vw;overflow:hidden;padding:1.05rem 0;z-index:4;
+  background:rgba(8,6,17,.55);backdrop-filter:blur(8px)}
+.marquee::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--acc,#7c5cff),var(--acc2,#38e0c8),var(--acc3,#f5b544),var(--acc,#7c5cff));
+  background-size:200% auto;animation:gradFlow 5s linear infinite}
+.marquee-inner{display:flex;width:max-content;will-change:transform}
+.marquee span{font-family:'Sora';font-weight:800;font-size:1.3rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(230,225,250,.85);padding:0 2rem;white-space:nowrap}
+.marquee span i{font-style:normal;background:linear-gradient(120deg,var(--acc,#7c5cff),var(--acc2,#f45b8f),var(--acc3,#f5b544));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+.grid{display:grid;gap:1.2rem;margin-top:1.8rem}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:rgba(255,255,255,.045);backdrop-filter:blur(14px);border:1px solid rgba(150,130,240,.16);
+  border-radius:20px;padding:1.55rem 1.4rem;position:relative;overflow:hidden;transform-style:preserve-3d;will-change:transform}
+.card::after{content:"";position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s;pointer-events:none;
+  background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(124,92,255,.16), transparent 40%)}
+.card:hover::after{opacity:1}
+.card .ic{font-size:2.4rem;margin-bottom:.5rem;display:block;transform:translateZ(40px)}
+.card h3{font-size:1.3rem;margin-bottom:.4rem;color:var(--ice);transform:translateZ(30px)}
+.card p{font-size:1.02rem;transform:translateZ(20px)}
+.card .tag{position:absolute;top:12px;right:16px;font-family:'Sora';font-weight:800;color:rgba(124,92,255,.22);font-size:1.7rem}
+.grid .card:nth-child(3n+1){border-top:3px solid var(--pink)}
+.grid .card:nth-child(3n+2){border-top:3px solid var(--gold)}
+.grid .card:nth-child(3n){border-top:3px solid var(--mint)}
+.grid .card:nth-child(3n+1) .tag{color:rgba(244,91,143,.35)}
+.grid .card:nth-child(3n+2) .tag{color:rgba(245,181,68,.35)}
+.grid .card:nth-child(3n) .tag{color:rgba(45,212,167,.35)}
+
+.arch-wrap{display:grid;grid-template-columns:52px 1fr;gap:1.2rem;margin-top:1.5rem}
+.arch-line{position:relative}
+.arch-line svg{width:100%;height:100%;overflow:visible}
+.layers{display:flex;flex-direction:column;gap:.9rem}
+.layer{background:rgba(255,255,255,.045);border:1px solid rgba(150,130,240,.18);border-left:5px solid var(--snow);
+  border-radius:16px;padding:1.05rem 1.5rem;cursor:pointer;position:relative;overflow:hidden;transition:background .3s,border-color .3s}
+.layer:hover{background:rgba(124,92,255,.1)}
+.layer .head{display:flex;align-items:center;gap:1.1rem}
+.layer .n{font-family:'Sora';font-weight:800;font-size:1.5rem;color:var(--snow);min-width:78px}
+.layer h3{font-size:1.22rem;color:var(--ice)}
+.layer p{font-size:1rem;margin-top:.2rem}
+.layer .more{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.6,0,.2,1),margin .5s}
+.layer.open .more{max-height:160px;margin-top:.7rem}
+.layer .more p{font-size:.97rem;color:var(--snow2);border-top:1px dashed rgba(150,130,240,.25);padding-top:.7rem}
+.layer .plus{position:absolute;top:14px;right:16px;font-family:'Sora';font-weight:700;color:var(--snow2);opacity:.6;
+  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase}
+.layer:nth-child(2){border-left-color:var(--accent)}.layer:nth-child(2) .n{color:var(--accent)}
+.layer:nth-child(3){border-left-color:var(--gold)}.layer:nth-child(3) .n{color:var(--gold)}
+.layer:nth-child(4){border-left-color:var(--pink)}.layer:nth-child(4) .n{color:var(--pink)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
+.stat{text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(150,130,240,.16);border-radius:22px;
+  padding:1.7rem 1rem;position:relative;overflow:hidden;animation:accPulse 3.2s ease-in-out infinite}
+.stat:nth-child(2){animation-delay:1s}.stat:nth-child(3){animation-delay:2s}
+@keyframes accPulse{0%,100%{box-shadow:0 0 0 rgba(0,0,0,0)}50%{box-shadow:0 0 34px -6px var(--acc,#7c5cff)}}
+.stat::before{content:"";position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--acc,var(--snow)),transparent)}
+.stat .big{font-family:'Sora';font-weight:800;font-size:clamp(2.6rem,6vw,4.2rem);line-height:1}
+.stat .lbl{color:var(--muted);font-size:1rem;margin-top:.6rem;line-height:1.5}
+.stat .lbl b{color:var(--ice)}
+
+.tl{margin-top:1.6rem;position:relative;padding-left:22px}
+.tl-rail{position:absolute;left:38px;top:10px;bottom:10px;width:3px;border-radius:3px;
+  background:linear-gradient(180deg,var(--snow),var(--accent),var(--gold));transform-origin:top;transform:scaleY(0)}
+.tl-item{display:flex;gap:1.2rem;padding:.5rem 0;align-items:flex-start;position:relative}
+.tl-dot{min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--snow),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:700;font-size:.92rem;color:#f1ecff;
+  box-shadow:0 0 16px rgba(124,92,255,.45);z-index:2}
+.tl-item h3{font-size:1.2rem;color:var(--ice)}
+.tl-item p{font-size:1rem}
+
+.seclist{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+.sec{display:flex;gap:.9rem;align-items:flex-start;background:rgba(255,255,255,.045);border:1px solid rgba(150,130,240,.16);
+  border-radius:16px;padding:1rem 1.2rem;will-change:transform}
+.sec .ic{font-size:1.8rem}
+.sec b{color:var(--ice);font-family:'Sora';font-size:1.1rem}
+.sec span{color:var(--muted);font-size:.98rem;display:block;margin-top:.18rem;line-height:1.5}
+.seclist .sec:nth-child(odd){border-left:4px solid var(--pink)}
+.seclist .sec:nth-child(even){border-left:4px solid var(--mint)}
+
+.term{background:#0c0a1a;border:1px solid rgba(150,130,240,.25);border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);margin-top:1.3rem;text-align:left}
+.term-bar{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);padding:.65rem 1rem;
+  border-bottom:1px solid rgba(150,130,240,.15)}
+.term-bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
+.term-bar span{font-family:'JetBrains Mono';font-size:.75rem;color:var(--muted);margin-left:.6rem}
+.term-body{padding:1.1rem 1.3rem;font-family:'JetBrains Mono',monospace;font-size:clamp(.85rem,1.45vw,1.08rem);line-height:1.75;min-height:200px}
+.term-body .kw{color:#a78bff}.term-body .str{color:#2dd4a7}.term-body .fn{color:#f5b544}.term-body .cm{color:#7d6ca8}
+.cursor{display:inline-block;width:8px;height:1.1em;background:var(--snow);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.result-rows{margin-top:.6rem;border-top:1px solid rgba(150,130,240,.2);padding-top:.6rem}
+.rrow{display:grid;grid-template-columns:2fr 1.2fr 1fr;gap:1rem;color:var(--ice);opacity:0}
+.rrow.h{color:var(--snow2);font-weight:600}
+.replay{margin-top:1rem;background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.45);color:var(--snow2);
+  font-family:'Sora';font-weight:600;font-size:.85rem;padding:.6em 1.5em;border-radius:50px;cursor:pointer;transition:.3s}
+.replay:hover{background:var(--snow);color:#0a0618;box-shadow:0 0 24px rgba(124,92,255,.5)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center}
+ul.clean{list-style:none;margin-top:1rem}
+ul.clean li{padding:.5rem 0 .5rem 2rem;position:relative;color:var(--muted);line-height:1.55;font-size:1.08rem}
+ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
+
+.progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--snow),var(--accent));z-index:60;box-shadow:0 0 12px var(--snow)}
+.nav-btn{position:fixed;top:50%;transform:translateY(-50%);z-index:60;width:54px;height:54px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid rgba(150,130,240,.25);color:var(--ice);font-size:1.35rem;cursor:pointer;
+  backdrop-filter:blur(8px);transition:.3s;opacity:.4}
+.nav-btn:hover{opacity:1;background:var(--snow);color:#0a0618;box-shadow:0 0 26px rgba(124,92,255,.6)}
+.prev{left:22px}.next{right:22px}
+.dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);z-index:60;display:flex;gap:11px;transition:bottom .5s cubic-bezier(.6,0,.2,1)}
+.dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.35s}
+.dot.active{background:var(--snow);transform:scale(1.5);box-shadow:0 0 14px var(--snow)}
+.counter-badge{position:fixed;bottom:82px;right:26px;z-index:60;font-family:'Sora';font-weight:600;color:var(--muted);
+  font-size:.95rem;background:rgba(255,255,255,.06);padding:.4em 1em;border-radius:50px;border:1px solid rgba(150,130,240,.2);
+  backdrop-filter:blur(6px);transition:bottom .5s cubic-bezier(.6,0,.2,1)}
+.brand{position:fixed;top:16px;left:22px;z-index:60;font-family:'Sora';font-weight:700;font-size:1rem;color:var(--snow2);letter-spacing:.05em}
+
+.thanks-title{font-size:clamp(2.6rem,8vw,5.5rem);margin:.15em 0;perspective:800px}
+
+@media(max-width:860px){
+  .g3,.stats,.two,.seclist{grid-template-columns:1fr}
+  .nav-btn{width:42px;height:42px}
+  .arch-wrap{grid-template-columns:1fr}.arch-line{display:none}
+  .marquee span{font-size:.85rem}
+  .gif-corner{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+<div class="progress" id="prog"></div>
+<div class="brand">◆ SC-505 · Administración de Proyectos</div>
+
+<div class="deck">
+  <div class="track" id="track">
+
+    <!-- 1 · HERO -->
+    <section class="slide center s0" style="--acc:#7c5cff;--acc2:#a78bff;--acc3:#38e0c8">
+      <img class="gif-bg" src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" loading="lazy" alt="">
+      <div class="blob" data-depth="30" style="width:440px;height:440px;background:var(--snow);top:-90px;left:-70px"></div>
+      <div class="blob" data-depth="55" style="width:400px;height:400px;background:var(--accent);bottom:-110px;right:-50px"></div>
+      <div class="content">
+        <svg id="emblem" viewBox="-110 -110 220 220" aria-hidden="true"></svg>
+        <h1 class="hero-title"><span class="grad split" id="heroTitle">FinNova NextGen</span></h1>
+        <p class="hero-sub a">auditoría del <span class="serif">Product Backlog</span> con IA</p>
+        <p class="a" style="max-width:720px;margin:1rem auto 0">Evaluación independiente del backlog de una SuperApp financiera, antes de aprobar el presupuesto de desarrollo.</p>
+        <div class="credits a">
+          Caso de Estudio Avanzado &nbsp;|&nbsp; <b>Grupo 8 · SC-505 Administración de Proyectos</b><br>
+          <b>Nairyth Araya Torres · Monserrath Piedra La Touche · Carolina Solano Chinchilla · María Catalina Valverde Arroyo</b><br>
+          Universidad Fidélitas — V Cuatrimestre 2026 &nbsp;|&nbsp; Profesor: <b>David Antonio Hernández Araya</b>
+        </div>
+      </div>
+      <div class="marquee" data-words="SCRUM ◆ PRODUCT BACKLOG ◆ INVEST ◆ MoSCoW ◆ IA APLICADA ◆ GOBERNANZA ◆ AUDITORÍA"></div>
+    </section>
+
+    <!-- 2 · AGENDA -->
+    <section class="slide s1" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#2dd4a7">
+      <img class="gif-corner" src="https://media.giphy.com/media/xTiTnxpQ3ghPiB2Hp6/giphy.gif" loading="lazy" alt="" style="width:300px;top:7vh;right:5vw;transform:rotate(3deg)">
+      <div class="blob" data-depth="40" style="width:360px;height:360px;background:var(--pink);top:-70px;right:-40px;opacity:.15"></div>
+      <div class="content">
+        <span class="kicker a">Contenido</span>
+        <h2 class="a">¿Qué vamos a <span class="serif grad">revisar</span>?</h2>
+        <div class="grid g3">
+          <div class="card tilt a"><span class="tag">01</span><span class="ic">🏦</span><h3>El caso</h3><p>FinNova Group y su SuperApp financiera.</p></div>
+          <div class="card tilt a"><span class="tag">02</span><span class="ic">🔍</span><h3>Hallazgos</h3><p>Qué encontramos en el backlog inicial.</p></div>
+          <div class="card tilt a"><span class="tag">03</span><span class="ic">✅</span><h3>INVEST</h3><p>Historias que no pasan el filtro.</p></div>
+          <div class="card tilt a"><span class="tag">04</span><span class="ic">📋</span><h3>Criterios</h3><p>De ambiguos a medibles con IA.</p></div>
+          <div class="card tilt a"><span class="tag">05</span><span class="ic">⚖️</span><h3>Riesgos</h3><p>Regulatorios y de inteligencia artificial.</p></div>
+          <div class="card tilt a"><span class="tag">06</span><span class="ic">🧭</span><h3>Recomendación</h3><p>El veredicto para la Junta Directiva.</p></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="EL CASO ◆ HALLAZGOS ◆ INVEST ◆ CRITERIOS ◆ MoSCoW ◆ RIESGOS ◆ RECOMENDACIÓN"></div>
+    </section>
+
+    <!-- 3 · CONTEXTO -->
+    <section class="slide s2" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#7c5cff">
+      <div class="blob" data-depth="45" style="width:380px;height:380px;background:var(--mint);bottom:-90px;left:-60px;opacity:.15"></div>
+      <div class="content">
+        <span class="kicker a">El caso</span>
+        <h2 class="a">El cliente: <span class="serif grad">FinNova Group</span></h2>
+        <p class="a" style="max-width:900px">Corporación financiera que opera en Costa Rica, Panamá y Guatemala. Desarrolla <span class="hl">FinNova NextGen</span>, una SuperApp que integra cuentas, inversiones, pagos, créditos, billetera digital y un chatbot de IA generativa.</p>
+        <ul class="clean" style="max-width:900px">
+          <li class="a">Nos contratan como firma de <span class="hl">Agile Consulting</span></li>
+          <li class="a">La Junta pide una <span class="hl">evaluación independiente</span> del backlog</li>
+          <li class="a">El objetivo: revisarlo antes de <span class="hl">aprobar el presupuesto</span> del próximo trimestre</li>
+        </ul>
+        <div class="stats">
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="3">0</span></div><div class="lbl"><b>países</b> de operación<br>CR · Panamá · Guatemala</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="15">0</span></div><div class="lbl">ítems de <b>Product Backlog</b><br>auditados</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="6">0</span></div><div class="lbl"><b>historias de usuario</b><br>evaluadas con INVEST</div></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="SUPERAPP FINANCIERA ◆ 3 PAÍSES ◆ AGILE CONSULTING ◆ EVALUACIÓN INDEPENDIENTE ◆ 15 ÍTEMS"></div>
+    </section>
+
+    <!-- 4 · HALLAZGOS -->
+    <section class="slide s3" style="--acc:#f5b544;--acc2:#f45b8f;--acc3:#38e0c8">
+      <img class="gif-corner" src="https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif" loading="lazy" alt="" style="width:240px;bottom:11vh;right:5vw;transform:rotate(-3deg)">
+      <div class="blob" data-depth="35" style="width:360px;height:360px;background:var(--gold);top:-80px;left:-50px;opacity:.13"></div>
+      <div class="content">
+        <span class="kicker a">Punto 1 · Hallazgos</span>
+        <h2 class="a">Lo que <span class="serif grad">encontramos</span></h2>
+        <div class="grid g3">
+          <div class="card tilt a"><span class="ic">🔁</span><h3>Duplicidades</h3><p>PB03 y PB08 son la misma transferencia internacional; PB05 y PB13 se solapan al usar IA.</p></div>
+          <div class="card tilt a"><span class="ic">🧱</span><h3>Tareas técnicas</h3><p>Kubernetes, PostgreSQL y Azure no son historias de negocio: son habilitadores.</p></div>
+          <div class="card tilt a"><span class="ic">🎨</span><h3>Bajo valor</h3><p>"Elegir entre 25 colores" es puro desperdicio para una app financiera.</p></div>
+          <div class="card tilt a"><span class="ic">📊</span><h3>Prioridades infladas</h3><p>Casi todo está en "Alta"; así, en la práctica, nada es prioritario.</p></div>
+          <div class="card tilt a"><span class="ic">🐘</span><h3>Épicas disfrazadas</h3><p>HU-02 abarca cualquier transferencia, moneda y país: no es una historia.</p></div>
+          <div class="card tilt a"><span class="ic">🔗</span><h3>Dependencias ocultas</h3><p>Los pagos dependen de la autenticación, que no está priorizada primero.</p></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="DUPLICIDADES ◆ HABILITADORES ◆ DESPERDICIO ◆ PRIORIDADES INFLADAS ◆ ÉPICAS ◆ DEPENDENCIAS"></div>
+    </section>
+
+    <!-- 5 · INVEST -->
+    <section class="slide s4" style="--acc:#8b5cf6;--acc2:#a78bff;--acc3:#38e0c8">
+      <img class="gif-corner" src="https://media.giphy.com/media/l0HlNQ03J5JxX2rGU/giphy.gif" loading="lazy" alt="" style="width:260px;top:7vh;right:4vw;transform:rotate(2deg);opacity:.7">
+      <div class="blob" data-depth="50" style="width:340px;height:340px;background:var(--violet);top:-70px;right:-50px;opacity:.16"></div>
+      <div class="content">
+        <span class="kicker a">Punto 2 · INVEST</span>
+        <h2 class="a">Historias que <span class="serif grad">no pasan el filtro</span></h2>
+        <p class="a" style="max-width:820px">Cada historia pasó por INVEST (Independiente, Negociable, Valiosa, Estimable, Pequeña, Testeable). <span style="color:var(--snow2)">Hacé clic para ver el veredicto.</span></p>
+        <div class="arch-wrap">
+          <div class="arch-line">
+            <svg viewBox="0 0 40 400" preserveAspectRatio="none">
+              <path id="archPath" d="M20 10 L20 390" stroke="url(#archGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <defs><linearGradient id="archGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#7c5cff"/><stop offset=".5" stop-color="#38e0c8"/><stop offset="1" stop-color="#f5b544"/>
+              </linearGradient></defs>
+            </svg>
+          </div>
+          <div class="layers">
+            <div class="layer a" onclick="this.classList.toggle('open')">
+              <span class="plus">+ info</span>
+              <div class="head"><span class="n">HU-01</span><div><h3>"Usar la app rápidamente"</h3><p>Incumple Valiosa, Estimable y Testeable.</p></div></div>
+              <div class="more"><p>"Rápidamente" no es medible: QA no puede certificar un adjetivo. La reescribimos con una métrica: <b>acceso en ≤ 3 segundos</b>.</p></div>
+            </div>
+            <div class="layer a" onclick="this.classList.toggle('open')">
+              <span class="plus">+ info</span>
+              <div class="head"><span class="n">HU-02</span><div><h3>"Cualquier transferencia, moneda y país"</h3><p>Es una épica, no una historia.</p></div></div>
+              <div class="more"><p>Mezcla SINPE nacional con transferencias SWIFT, mundos distintos. Se <b>divide en historias pequeñas</b> e independientes.</p></div>
+            </div>
+            <div class="layer a" onclick="this.classList.toggle('open')">
+              <span class="plus">+ info</span>
+              <div class="head"><span class="n">HU-05</span><div><h3>"Recomendaciones perfectas de IA"</h3><p>Incumple Testeable.</p></div></div>
+              <div class="more"><p>La "perfección" en predicción financiera no existe y expone a responsabilidad legal. Añadimos <b>supervisión humana y advertencias</b>.</p></div>
+            </div>
+            <div class="layer a" onclick="this.classList.toggle('open')">
+              <span class="plus">+ info</span>
+              <div class="head"><span class="n">HU-06</span><div><h3>"Cerrar todo con un botón"</h3><p>Incumple Independiente y Pequeña.</p></div></div>
+              <div class="more"><p>Cada producto tiene reglas y contratos propios. Se hace <b>una historia por producto</b>, con confirmación en dos pasos.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="marquee" data-words="INDEPENDIENTE ◆ NEGOCIABLE ◆ VALIOSA ◆ ESTIMABLE ◆ PEQUEÑA ◆ TESTEABLE"></div>
+    </section>
+
+    <!-- 6 · CRITERIOS -->
+    <section class="slide s5" style="--acc:#38e0c8;--acc2:#f5b544;--acc3:#f45b8f">
+      <div class="blob" data-depth="40" style="width:380px;height:380px;background:var(--mint);bottom:-100px;right:-60px;opacity:.13"></div>
+      <div class="content">
+        <span class="kicker a">Punto 3 · Criterios de aceptación</span>
+        <h2 class="a">De <span class="serif grad">ambiguos a medibles</span></h2>
+        <p class="a" style="max-width:820px">Los criterios decían "debe ser rápido" o "no debe equivocarse". Con IA los reescribimos en formato Dado–Cuando–Entonces, con umbrales verificables:</p>
+        <div class="term a">
+          <div class="term-bar"><i></i><i></i><i></i><span>gemini — criterios de aceptación (BDD)</span></div>
+          <div class="term-body" id="termBody"></div>
+        </div>
+        <button class="replay a" onclick="runTyping()">▶ Repetir demo</button>
+      </div>
+      <div class="marquee" data-words="DADO ◆ CUANDO ◆ ENTONCES ◆ MEDIBLE ◆ VERIFICABLE ◆ ≤ 1.8 s ◆ CHECKLIST"></div>
+    </section>
+
+    <!-- 7 · MoSCoW -->
+    <section class="slide s6" style="--acc:#f5b544;--acc2:#2dd4a7;--acc3:#a78bff">
+      <img class="gif-corner" src="https://media.giphy.com/media/67ThRZlYBvibtdF9JH/giphy.gif" loading="lazy" alt="" style="width:250px;bottom:11vh;right:5vw;transform:rotate(-2deg)">
+      <div class="blob" data-depth="40" style="width:380px;height:380px;background:var(--gold);top:-90px;left:-60px;opacity:.13"></div>
+      <div class="content">
+        <span class="kicker a">Punto 4 · Priorización</span>
+        <h2 class="a">Backlog <span class="serif grad">reorganizado</span> (MoSCoW)</h2>
+        <div class="tl">
+          <div class="tl-rail" id="tlRail"></div>
+          <div class="tl-item a"><div class="tl-dot">M</div><div><h3>Must — indispensable</h3><p>Saldo, SINPE Móvil, autenticación y bitácoras de auditoría: lo que la app necesita para operar y cumplir la ley.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">S</div><div><h3>Should — alta prioridad</h3><p>Pago de servicios públicos y estados de cuenta en PDF.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">C</div><div><h3>Could — si hay capacidad</h3><p>Transferencias internacionales y préstamos con IA, siempre con controles.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">W</div><div><h3>Won't — fuera de este trimestre</h3><p>IA de inversión, cierre express de productos y los 25 colores.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">T</div><div><h3>Técnico — backlog aparte</h3><p>Kubernetes, PostgreSQL y Azure van al Architectural Runway, sin competir con el negocio.</p></div></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="MUST ◆ SHOULD ◆ COULD ◆ WON'T ◆ HABILITADORES TÉCNICOS ◆ VALOR · RIESGO · DEPENDENCIAS"></div>
+    </section>
+
+    <!-- 8 · RIESGOS -->
+    <section class="slide s7" style="--acc:#f45b8f;--acc2:#8b5cf6;--acc3:#38e0c8">
+      <img class="gif-corner" src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" loading="lazy" alt="" style="width:230px;bottom:9vh;right:4vw;transform:rotate(2deg);opacity:.7">
+      <div class="blob" data-depth="40" style="width:360px;height:360px;background:var(--pink);top:-80px;right:-50px;opacity:.15"></div>
+      <div class="content">
+        <span class="kicker a">Punto 5 · Riesgos</span>
+        <h2 class="a">Riesgos <span class="serif grad">regulatorios y de IA</span></h2>
+        <div class="seclist">
+          <div class="sec a"><span class="ic">⚖️</span><div><b>Asesoría no autorizada</b><span>Recomendaciones de IA sin supervisión → SUGEVAL. Mitigación: supervisión humana y advertencias.</span></div></div>
+          <div class="sec a"><span class="ic">🧮</span><div><b>Sesgo crediticio</b><span>Préstamos con IA → SUGEF. Mitigación: modelo auditable y pruebas de equidad.</span></div></div>
+          <div class="sec a"><span class="ic">🔒</span><div><b>Datos sensibles</b><span>Biometría sin consentimiento → PRODHAB, Ley 8968. Mitigación: consentimiento y cifrado.</span></div></div>
+          <div class="sec a"><span class="ic">🚫</span><div><b>Cierre automático</b><span>Liquidaciones erróneas → MEIC. Mitigación: confirmación en dos pasos.</span></div></div>
+          <div class="sec a"><span class="ic">💸</span><div><b>Lavado de activos</b><span>Transferencias sin control → Ley 7786. Mitigación: controles KYC/AML.</span></div></div>
+          <div class="sec a"><span class="ic">🏗️</span><div><b>Deuda técnica</b><span>Kubernetes vs Azure se contradicen. Mitigación: un spike para decidir la nube.</span></div></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="SUGEVAL ◆ SUGEF ◆ PRODHAB · LEY 8968 ◆ MEIC ◆ LEY 7786 ◆ GOBERNANZA DE IA"></div>
+    </section>
+
+    <!-- 9 · EVIDENCIA IA -->
+    <section class="slide s8" style="--acc:#7c5cff;--acc2:#38e0c8;--acc3:#f5b544">
+      <img class="gif-corner" src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" loading="lazy" alt="" style="width:300px;bottom:11vh;right:5vw;transform:rotate(-2deg)">
+      <div class="blob" data-depth="45" style="width:380px;height:380px;background:var(--snow);bottom:-90px;left:-60px;opacity:.14"></div>
+      <div class="content two">
+        <div>
+          <span class="kicker a">El uso de la IA</span>
+          <h2 class="a">IA que <span class="serif grad">propone</span>, equipo que <span class="serif grad">decide</span></h2>
+          <p class="a">Usamos <span class="hl">Google Gemini</span> como apoyo, actuando como Product Owner y Agile Coach. Cada respuesta se validó contra Scrum, PMBOK 8 y la ley.</p>
+          <ul class="clean">
+            <li class="a">La IA <span class="hl">estructura y revisa</span>; el equipo valida</li>
+            <li class="a">Ningún ítem entra al backlog <span class="hl">sin revisión humana</span></li>
+            <li class="a">Los <span class="hl">prompts</span> quedan documentados como evidencia</li>
+          </ul>
+        </div>
+        <div class="card tilt a" style="padding:1.8rem 1.6rem">
+          <span class="ic">🤝</span>
+          <h3 style="color:var(--ice);margin-bottom:.5rem">Aporte y corrección</h3>
+          <p style="font-size:1.02rem">Gemini citó <b style="color:var(--snow2)">SUGEVAL, SUGEF, PRODHAB y MEIC</b>; el equipo verificó y <b style="color:var(--snow2)">añadió la Ley 7786</b> de lavado que la IA omitió. La velocidad de la IA + el criterio humano = mejor entregable.</p>
+        </div>
+      </div>
+      <div class="marquee" data-words="GEMINI ◆ VALIDACIÓN HUMANA OBLIGATORIA ◆ PROMPTS COMO EVIDENCIA ◆ SIN COPIAR Y PEGAR"></div>
+    </section>
+
+    <!-- 10 · CONCLUSIONES -->
+    <section class="slide center s9" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#f5b544">
+      <img class="gif-corner" src="https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif" loading="lazy" alt="" style="width:240px;top:8vh;left:4vw;transform:rotate(-3deg)">
+      <div class="blob" data-depth="30" style="width:420px;height:420px;background:var(--mint);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.1"></div>
+      <div class="content">
+        <span class="kicker a">Cierre</span>
+        <h2 class="a">Recomendación a la Junta</h2>
+        <div class="grid g3" style="margin-top:1.6rem">
+          <div class="card tilt a"><span class="ic">⛔</span><h3>No liberar aún</h3><p>El presupuesto de IA (PB05, PB13) y del cierre express (PB07) hasta estabilizar lo transaccional.</p></div>
+          <div class="card tilt a"><span class="ic">🥇</span><h3>Primero lo básico</h3><p>SINPE, saldos, servicios y auditoría regulatoria: la base que sostiene todo.</p></div>
+          <div class="card tilt a"><span class="ic">🛡️</span><h3>Gobernanza de IA</h3><p>Un comité técnico-legal que audite los modelos antes de llevarlos a producción.</p></div>
+        </div>
+        <p class="lead a" style="margin-top:2rem">Con el backlog refinado, FinNova NextGen puede avanzar con un <span class="serif grad">riesgo controlado</span>.</p>
+      </div>
+      <div class="marquee" data-words="NO LIBERAR AÚN ◆ PRIMERO LO BÁSICO ◆ GOBERNANZA DE IA ◆ RIESGO CONTROLADO"></div>
+    </section>
+
+    <!-- 11 · GRACIAS -->
+    <section class="slide center s10" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#7c5cff">
+      <img class="gif-bg" src="https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif" loading="lazy" alt="" style="opacity:.26">
+      <div class="content">
+        <span style="font-size:3.6rem;display:inline-block" class="floaty a">◆</span>
+        <h1 class="thanks-title"><span class="grad split" id="thanksTitle">¡Gracias!</span></h1>
+        <p class="lead a">¿Preguntas?</p>
+        <p class="a" style="margin-top:1.8rem;font-size:.95rem"><b style="color:var(--ice)">Grupo 8</b> · Nairyth Araya Torres · Monserrath Piedra La Touche · Carolina Solano Chinchilla · María Catalina Valverde Arroyo<br>
+        SC-505 Administración de Proyectos — Universidad Fidélitas · Profesor: <b style="color:var(--snow2)">David Antonio Hernández Araya</b><br>
+        <span style="color:var(--snow2)">Caso FinNova Group · Auditoría de Product Backlog con IA (Gemini) · 2026</span></p>
+      </div>
+      <div class="marquee" data-words="¡GRACIAS! ◆ ¿PREGUNTAS? ◆ GRUPO 8 ◆ FINNOVA NEXTGEN ◆ ¡GRACIAS!"></div>
+    </section>
+
+  </div>
+</div>
+
+<button class="nav-btn prev" onclick="go(cur-1)" aria-label="Anterior">‹</button>
+<button class="nav-btn next" onclick="go(cur+1)" aria-label="Siguiente">›</button>
+<div class="dots" id="dots"></div>
+<div class="counter-badge" id="cbadge">1 / 11</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const track=document.getElementById('track');
+const dotsWrap=document.getElementById('dots');
+let cur=0, sliding=false;
+const hasGsap = typeof gsap!=='undefined';
+
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>go(i);dotsWrap.appendChild(d);});
+const dots=[...document.querySelectorAll('.dot')];
+
+/* marquees */
+document.querySelectorAll('.marquee').forEach((bar,bi)=>{
+  const words=(bar.dataset.words||'FINNOVA').split('◆').map(w=>w.trim()).filter(Boolean)
+    .map(w=>w+' <i>◆</i> ').join('');
+  const inner=document.createElement('div');inner.className='marquee-inner';
+  inner.innerHTML='<span>'+words.repeat(6)+'</span><span>'+words.repeat(6)+'</span>';
+  bar.appendChild(inner);
+  const dur=38+(bi%3)*6;
+  if(hasGsap)gsap.to(inner,{xPercent:-50,duration:dur,ease:'none',repeat:-1});
+  else inner.style.animation='slideMarquee '+dur+'s linear infinite';
+});
+
+/* emblema generativo: red / hub (6 nodos) */
+(function(){
+  const svg=document.getElementById('emblem');
+  const NS='http://www.w3.org/2000/svg';
+  const paths=[];const R=90;const pts=[];
+  for(let b=0;b<6;b++){
+    const a=(b*60-90)*Math.PI/180;
+    const x=Math.cos(a)*R,y=Math.sin(a)*R;
+    pts.push([x,y]);
+    const ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',0);ln.setAttribute('y1',0);ln.setAttribute('x2',x.toFixed(1));ln.setAttribute('y2',y.toFixed(1));
+    svg.appendChild(ln);paths.push(ln);
+    const nd=document.createElementNS(NS,'circle');
+    nd.setAttribute('cx',x.toFixed(1));nd.setAttribute('cy',y.toFixed(1));nd.setAttribute('r',7);
+    svg.appendChild(nd);paths.push(nd);
+  }
+  const poly=document.createElementNS(NS,'polygon');
+  poly.setAttribute('points',pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '));
+  svg.appendChild(poly);paths.push(poly);
+  const c=document.createElementNS(NS,'circle');
+  c.setAttribute('r',11);svg.appendChild(c);paths.push(c);
+  paths.forEach(p=>{
+    const len=(p.getTotalLength?p.getTotalLength():60)||60;
+    p.style.strokeDasharray=len;p.style.strokeDashoffset=len;
+  });
+  window.drawEmblem=()=>{ if(!hasGsap){paths.forEach(p=>p.style.strokeDashoffset=0);return;}
+    gsap.fromTo(paths,{strokeDashoffset:i=>paths[i].style.strokeDasharray},
+      {strokeDashoffset:0,duration:1.6,ease:'power2.inOut',stagger:.028});
+    gsap.fromTo(svg,{rotate:-70,scale:.6,opacity:0},{rotate:0,scale:1,opacity:1,duration:1.8,ease:'expo.out'});
+    gsap.to(svg,{rotate:360,duration:110,ease:'none',repeat:-1,delay:2});
+  };
+})();
+
+/* split de caracteres */
+document.querySelectorAll('.split').forEach(el=>{
+  el.innerHTML=[...el.textContent].map(ch=>`<span class="char">${ch==' '?'&nbsp;':ch}</span>`).join('');
+});
+
+/* canvas de partículas */
+(function(){
+  const cv=document.getElementById('snowCanvas'),ctx=cv.getContext('2d');
+  let W,H,flakes=[];
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  resize();addEventListener('resize',resize);
+  for(let i=0;i<60;i++){const z=Math.random();
+    flakes.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,z,
+      r:.8+z*2.4,vy:.2+z*.7,vx:(Math.random()-.5)*.3,o:.12+z*.38,ph:Math.random()*6.28});}
+  (function loop(t){
+    ctx.clearRect(0,0,W,H);
+    flakes.forEach(f=>{
+      f.y+=f.vy;f.x+=f.vx+Math.sin(t/1600+f.ph)*.25;
+      if(f.y>H+6){f.y=-6;f.x=Math.random()*W;}
+      if(f.x>W+6)f.x=-6; if(f.x<-6)f.x=W+6;
+      ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,6.28);
+      ctx.fillStyle=`rgba(170,150,255,${f.o})`;ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+/* parallax de mouse en blobs */
+if(hasGsap){
+  addEventListener('mousemove',e=>{
+    const nx=(e.clientX/innerWidth-.5),ny=(e.clientY/innerHeight-.5);
+    document.querySelectorAll('.slide .blob').forEach(b=>{
+      const d=+b.dataset.depth||30;
+      gsap.to(b,{x:nx*d,y:ny*d,duration:1.2,ease:'power2.out',overwrite:'auto'});
+    });
+  });
+}
+
+/* tilt 3D en cards */
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    card.style.setProperty('--mx',px*100+'%');card.style.setProperty('--my',py*100+'%');
+    if(hasGsap)gsap.to(card,{rotateY:(px-.5)*14,rotateX:(.5-py)*10,y:-6,duration:.4,ease:'power2.out',transformPerspective:700});
+  });
+  card.addEventListener('mouseleave',()=>{ if(hasGsap)gsap.to(card,{rotateY:0,rotateX:0,y:0,duration:.7,ease:'elastic.out(1,.5)'}); });
+});
+
+/* contadores */
+function animateCounters(sl){
+  sl.querySelectorAll('.cnt').forEach(el=>{
+    const t=+el.dataset.t;
+    if(!hasGsap){el.textContent=t;return;}
+    const o={v:0};
+    gsap.to(o,{v:t,duration:1.8,ease:'power3.out',delay:.5,onUpdate:()=>el.textContent=Math.floor(o.v)});
+  });
+}
+
+/* demo typing (criterios BDD) */
+const sqlLines=[
+ [['cm','// Prompt a Gemini — Agile Coach']],
+ [['kw','Reescribe'],['t',' estos criterios en formato']],
+ [['fn','Dado – Cuando – Entonces'],['t',', medibles']],
+ [['t','y verificables por QA.']],
+ [['cm','// Resultado validado por el equipo:']]
+];
+const resultRows=[
+ ['ESCENARIO','ESTADO','META'],
+ ['Consulta de saldo','✓ Pasa','≤ 1.8 s'],
+ ['Sin disponibilidad','✓ Maneja error','mensaje claro'],
+ ['Cierre de cuenta','✓ Valida saldo','2 pasos']
+];
+let typingTimer=[];
+function runTyping(){
+  typingTimer.forEach(t=>clearTimeout(t));typingTimer=[];
+  const body=document.getElementById('termBody');
+  if(!body)return;
+  body.innerHTML='';
+  const lineEls=sqlLines.map(()=>{const d=document.createElement('div');body.appendChild(d);return d;});
+  const cursor=document.createElement('span');cursor.className='cursor';
+  let delay=300;
+  sqlLines.forEach((segs,li)=>{
+    const flat=[];
+    segs.forEach(([cls,txt])=>[...txt].forEach(ch=>flat.push([cls,ch])));
+    flat.forEach(([cls,ch])=>{
+      typingTimer.push(setTimeout(()=>{
+        cursor.remove();
+        const sp=document.createElement('span');
+        if(cls!=='t')sp.className=cls;
+        sp.textContent=ch;lineEls[li].appendChild(sp);
+        lineEls[li].appendChild(cursor);
+      },delay));
+      delay+=16+Math.random()*20;
+    });
+    delay+=140;
+  });
+  typingTimer.push(setTimeout(()=>{
+    cursor.remove();
+    const res=document.createElement('div');res.className='result-rows';body.appendChild(res);
+    resultRows.forEach((r,i)=>{
+      const row=document.createElement('div');row.className='rrow'+(i===0?' h':'');
+      r.forEach(cell=>{const c=document.createElement('span');c.textContent=cell;row.appendChild(c);});
+      res.appendChild(row);
+      if(hasGsap)gsap.to(row,{opacity:1,x:0,duration:.5,delay:.15*i,ease:'power2.out',startAt:{x:-16}});
+      else row.style.opacity=1;
+    });
+  },delay+250));
+}
+
+/* confetti */
+function confettiBurst(sl){
+  if(!hasGsap)return;
+  const colors=['#7c5cff','#f45b8f','#f5b544','#2dd4a7','#8b5cf6','#38e0c8'];
+  let box=sl.querySelector('.confetti');
+  if(!box){box=document.createElement('div');box.className='confetti';sl.appendChild(box);}
+  box.innerHTML='';
+  for(let i=0;i<80;i++){
+    const s=document.createElement('i');
+    s.style.background=colors[i%colors.length];
+    s.style.left='50%';s.style.top='58%';
+    box.appendChild(s);
+    gsap.fromTo(s,{x:0,y:0,opacity:1,scale:.6+Math.random()},
+      {x:(Math.random()-.5)*innerWidth*.95,
+       y:(Math.random()-.78)*innerHeight*.95+Math.random()*220,
+       rotation:Math.random()*760-380,opacity:0,
+       duration:1.7+Math.random()*1.1,ease:'power3.out',delay:.35+Math.random()*.15});
+  }
+}
+
+/* timelines de entrada por slide */
+function playIntro(n){
+  const sl=slides[n];
+  if(!hasGsap)return;
+  gsap.killTweensOf(sl.querySelectorAll('.a,.char'));
+  const els=sl.querySelectorAll('.a');
+  gsap.fromTo(els,{opacity:0,y:46},{opacity:1,y:0,duration:.85,ease:'power3.out',stagger:.09,delay:.15,overwrite:'auto'});
+  const chars=sl.querySelectorAll('.char');
+  if(chars.length){
+    gsap.fromTo(chars,{opacity:0,yPercent:110,rotateX:-80},
+      {opacity:1,yPercent:0,rotateX:0,duration:1,ease:'back.out(1.6)',stagger:.045,delay:.1});
+  }
+  if(n===0&&window.drawEmblem)window.drawEmblem();
+  if(n===2)animateCounters(sl);
+  if(n===4){const rail=document.getElementById('archPath');
+    if(rail){const len=rail.getTotalLength();rail.style.strokeDasharray=len;
+      gsap.fromTo(rail,{strokeDashoffset:len},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut',delay:.3});}}
+  if(n===5)runTyping();
+  if(n===6){const rail=document.getElementById('tlRail');
+    gsap.fromTo(rail,{scaleY:0},{scaleY:1,duration:1.5,ease:'power2.inOut',delay:.3});}
+  if(n===7){gsap.fromTo(sl.querySelectorAll('.sec'),{opacity:0,x:i=>i%2?60:-60},
+      {opacity:1,x:0,duration:.8,ease:'power3.out',stagger:.1,delay:.2});}
+  if(n===10)confettiBurst(sl);
+}
+
+if(hasGsap){gsap.set(document.querySelectorAll('.a,.char'),{opacity:0});}
+else{document.querySelectorAll('.a,.char').forEach(e=>e.style.opacity=1);}
+
+if(hasGsap){document.querySelectorAll('.floaty').forEach(el=>{
+  gsap.to(el,{y:-16,duration:2.4,ease:'sine.inOut',yoyo:true,repeat:-1});});}
+
+function go(n){
+  if(n<0||n>=slides.length||n===cur||sliding)return;
+  sliding=true;
+  const from=cur;cur=n;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+  document.getElementById('prog').style.width=((cur+1)/slides.length*100)+'%';
+  document.getElementById('cbadge').textContent=`${cur+1} / ${slides.length}`;
+  if(hasGsap){
+    gsap.to(track,{x:-cur*innerWidth,duration:1.05,ease:'power4.inOut',onComplete:()=>{sliding=false;}});
+    gsap.fromTo(slides[cur].querySelector('.content'),{scale:.94},{scale:1,duration:1.1,ease:'power3.out'});
+    gsap.to(slides[from].querySelector('.content'),{scale:.97,duration:.5,ease:'power2.in',
+      onComplete:()=>gsap.set(slides[from].querySelector('.content'),{scale:1})});
+    playIntro(cur);
+  }else{
+    track.style.transform=`translateX(-${cur*100}vw)`;sliding=false;
+  }
+}
+addEventListener('resize',()=>{ if(hasGsap)gsap.set(track,{x:-cur*innerWidth}); });
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(cur+1);}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+  if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1);
+});
+let x0=null;
+track.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+track.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;
+  if(dx<-50)go(cur+1);if(dx>50)go(cur-1);x0=null;});
+
+document.getElementById('prog').style.width=(1/slides.length*100)+'%';
+window.addEventListener('load',()=>{playIntro(0);});
+if(document.readyState==='complete')playIntro(0);
+</script>
+</body>
+</html>
