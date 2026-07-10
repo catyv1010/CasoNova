@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinNova NextGen — Auditoría del Product Backlog con IA | SC-505</title>
+<title>FinNova NextGen — Auditoría del Product Backlog con IA | Grupo 8 · SC-505</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -11,7 +11,7 @@
   --deep:#080611; --bg:#100a22; --bg2:#170e30;
   --snow:#7c5cff; --snow2:#a78bff; --ice:#f1ecff;
   --accent:#38e0c8; --gold:#f5b544; --mint:#2dd4a7; --pink:#f45b8f; --violet:#8b5cf6;
-  --txt:#ece9f7; --muted:#a89fc6;
+  --txt:#ece9f7; --muted:#b5aed4;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;background:var(--deep);font-family:'Inter',sans-serif;color:var(--txt)}
@@ -23,164 +23,182 @@ html,body{height:100%;overflow:hidden;background:var(--deep);font-family:'Inter'
 .track{display:flex;height:100%;will-change:transform}
 .slide{min-width:100vw;height:100vh;position:relative;overflow:hidden;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:5vh 8vw 12vh;
+  padding:4.5vh 7vw 11vh;
   background:
    radial-gradient(at 15% 20%, rgba(124,92,255,.14) 0%, transparent 45%),
    radial-gradient(at 85% 80%, rgba(56,224,200,.12) 0%, transparent 45%),
    linear-gradient(160deg,var(--bg) 0%,var(--deep) 100%);}
 .slide.center{text-align:center;align-items:center}
-.content{position:relative;z-index:5;width:100%;max-width:1260px}
+.content{position:relative;z-index:5;width:100%;max-width:1340px}
 
 .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.2;pointer-events:none;z-index:0;will-change:transform}
 
 h1{font-family:'Sora';font-weight:800;line-height:1.02;letter-spacing:-.02em}
-h2{font-family:'Sora';font-weight:700;font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.05;margin-bottom:.35em;letter-spacing:-.01em}
+h2{font-family:'Sora';font-weight:700;font-size:clamp(2.4rem,5.2vw,4.4rem);line-height:1.05;margin-bottom:.3em;letter-spacing:-.01em}
 h3{font-family:'Sora';font-weight:600}
-p{color:var(--muted);line-height:1.6;font-size:clamp(1.12rem,1.9vw,1.42rem)}
+p{color:var(--muted);line-height:1.55;font-size:clamp(1.15rem,1.9vw,1.45rem)}
 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:0}
 .grad{background:linear-gradient(120deg,var(--acc,#7c5cff) 10%,var(--acc2,#a78bff) 45%,var(--acc3,#38e0c8) 80%);background-size:250% auto;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .grad .char{background:linear-gradient(150deg,var(--acc,#7c5cff) 15%,var(--acc2,#a78bff) 55%,var(--acc3,#38e0c8) 95%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.kicker{display:inline-flex;align-items:center;gap:.6em;font-family:'Sora';font-weight:600;letter-spacing:.28em;text-transform:uppercase;
-  font-size:.92rem;color:var(--acc,var(--snow2));padding:.55em 1.2em;border:1px solid rgba(124,92,255,.4);border-radius:50px;margin-bottom:1.5rem;
+.kicker{display:inline-flex;align-items:center;gap:.6em;font-family:'Sora';font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  font-size:.95rem;color:var(--acc,var(--snow2));padding:.55em 1.2em;border:1px solid rgba(124,92,255,.4);border-radius:50px;margin-bottom:1.3rem;
   background:rgba(124,92,255,.06);backdrop-filter:blur(6px)}
 .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--acc,var(--snow));box-shadow:0 0 12px var(--acc,var(--snow))}
-.lead{font-size:clamp(1.25rem,2.4vw,1.7rem);color:var(--ice)}
-
-.gif-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.30;mix-blend-mode:screen;
-  pointer-events:none;z-index:0;filter:saturate(1.35)}
-.gif-corner{position:absolute;border-radius:22px;pointer-events:none;z-index:1;opacity:.9;
-  border:1px solid rgba(255,255,255,.18);filter:saturate(1.25);box-shadow:0 28px 60px rgba(0,0,0,.55)}
-.gif-inline{width:100%;height:180px;object-fit:cover;border-radius:14px;margin-bottom:1rem;filter:saturate(1.2)}
-
-.s1{background:radial-gradient(at 15% 20%,rgba(244,91,143,.2) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(245,181,68,.16) 0%,transparent 48%),linear-gradient(160deg,#241026 0%,#0a0614 100%)}
-.s2{background:radial-gradient(at 80% 15%,rgba(45,212,167,.18) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(124,92,255,.15) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#04120f 100%)}
-.s3{background:radial-gradient(at 15% 20%,rgba(245,181,68,.17) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(244,91,143,.14) 0%,transparent 48%),linear-gradient(160deg,#251c08 0%,#120d04 100%)}
-.s4{background:radial-gradient(at 80% 20%,rgba(139,92,246,.22) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.15) 0%,transparent 48%),linear-gradient(160deg,#1a1030 0%,#0a0618 100%)}
-.s5{background:radial-gradient(at 15% 25%,rgba(56,224,200,.18) 0%,transparent 48%),radial-gradient(at 85% 75%,rgba(245,181,68,.14) 0%,transparent 48%),linear-gradient(160deg,#08251f 0%,#031214 100%)}
-.s6{background:radial-gradient(at 50% 10%,rgba(245,181,68,.2) 0%,transparent 50%),radial-gradient(at 85% 85%,rgba(45,212,167,.15) 0%,transparent 48%),linear-gradient(160deg,#241e07 0%,#110e03 100%)}
-.s7{background:radial-gradient(at 20% 20%,rgba(244,91,143,.2) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(139,92,246,.18) 0%,transparent 48%),linear-gradient(160deg,#260c1c 0%,#12060d 100%)}
-.s8{background:radial-gradient(at 80% 20%,rgba(124,92,255,.2) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.16) 0%,transparent 48%),linear-gradient(160deg,#150e2e 0%,#080513 100%)}
-.s9{background:radial-gradient(at 15% 20%,rgba(45,212,167,.19) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(124,92,255,.16) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#050f13 100%)}
-.s10{background:radial-gradient(at 50% 15%,rgba(245,181,68,.18) 0%,transparent 50%),radial-gradient(at 20% 85%,rgba(244,91,143,.16) 0%,transparent 48%),linear-gradient(160deg,#1c1330 0%,#0a0618 100%)}
-
-.confetti{position:absolute;inset:0;pointer-events:none;z-index:8}
-.confetti i{position:absolute;width:11px;height:15px;border-radius:3px;display:block}
+.lead{font-size:clamp(1.3rem,2.4vw,1.75rem);color:var(--ice)}
 .hl{color:var(--ice);font-weight:600}
 .char{display:inline-block;will-change:transform}
 
-#emblem{width:clamp(140px,18vw,210px);height:auto;filter:drop-shadow(0 0 30px rgba(124,92,255,.55))}
+/* Insignia de entregable del profesor */
+.ebadge{position:absolute;top:3.2vh;right:2.2vw;z-index:6;font-family:'JetBrains Mono',monospace;font-weight:600;
+  font-size:.78rem;letter-spacing:.12em;color:var(--gold);border:1.5px solid rgba(245,181,68,.55);
+  background:rgba(245,181,68,.08);border-radius:8px;padding:.5em .9em;text-align:right;line-height:1.5}
+.ebadge b{color:var(--ice)}
+
+.gif-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.26;mix-blend-mode:screen;
+  pointer-events:none;z-index:0;filter:saturate(1.35)}
+
+.s1{background:radial-gradient(at 80% 15%,rgba(45,212,167,.18) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(124,92,255,.15) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#04120f 100%)}
+.s2{background:radial-gradient(at 15% 20%,rgba(245,181,68,.17) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(244,91,143,.14) 0%,transparent 48%),linear-gradient(160deg,#251c08 0%,#120d04 100%)}
+.s3{background:radial-gradient(at 20% 20%,rgba(244,91,143,.18) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(245,181,68,.14) 0%,transparent 48%),linear-gradient(160deg,#241026 0%,#0a0614 100%)}
+.s4{background:radial-gradient(at 80% 20%,rgba(139,92,246,.22) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.15) 0%,transparent 48%),linear-gradient(160deg,#1a1030 0%,#0a0618 100%)}
+.s5{background:radial-gradient(at 15% 25%,rgba(56,224,200,.18) 0%,transparent 48%),radial-gradient(at 85% 75%,rgba(245,181,68,.14) 0%,transparent 48%),linear-gradient(160deg,#08251f 0%,#031214 100%)}
+.s6{background:radial-gradient(at 50% 10%,rgba(245,181,68,.2) 0%,transparent 50%),radial-gradient(at 85% 85%,rgba(45,212,167,.15) 0%,transparent 48%),linear-gradient(160deg,#241e07 0%,#110e03 100%)}
+.s7{background:radial-gradient(at 15% 20%,rgba(45,212,167,.17) 0%,transparent 48%),radial-gradient(at 80% 80%,rgba(124,92,255,.16) 0%,transparent 48%),linear-gradient(160deg,#0a1f2e 0%,#040d14 100%)}
+.s8{background:radial-gradient(at 20% 20%,rgba(244,91,143,.2) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(139,92,246,.18) 0%,transparent 48%),linear-gradient(160deg,#260c1c 0%,#12060d 100%)}
+.s9{background:radial-gradient(at 80% 20%,rgba(124,92,255,.2) 0%,transparent 48%),radial-gradient(at 15% 85%,rgba(56,224,200,.16) 0%,transparent 48%),linear-gradient(160deg,#150e2e 0%,#080513 100%)}
+.s10{background:radial-gradient(at 15% 20%,rgba(45,212,167,.19) 0%,transparent 48%),radial-gradient(at 85% 80%,rgba(124,92,255,.16) 0%,transparent 48%),linear-gradient(160deg,#0a2320 0%,#050f13 100%)}
+.s11{background:radial-gradient(at 50% 15%,rgba(245,181,68,.18) 0%,transparent 50%),radial-gradient(at 20% 85%,rgba(244,91,143,.16) 0%,transparent 48%),linear-gradient(160deg,#1c1330 0%,#0a0618 100%)}
+
+.confetti{position:absolute;inset:0;pointer-events:none;z-index:8}
+.confetti i{position:absolute;width:11px;height:15px;border-radius:3px;display:block}
+
+#emblem{width:clamp(120px,15vw,180px);height:auto;filter:drop-shadow(0 0 30px rgba(124,92,255,.55))}
 #emblem line,#emblem circle,#emblem polygon{stroke:var(--snow2);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.hero-title{font-size:clamp(3rem,10vw,7.4rem);margin:.12em 0 .05em;perspective:800px}
-.hero-sub{font-size:clamp(1.4rem,3vw,2.3rem);color:var(--muted)}
+.hero-title{font-size:clamp(3rem,9vw,6.8rem);margin:.12em 0 .08em;perspective:800px}
+.hero-sub{font-size:clamp(1.5rem,3vw,2.4rem);color:var(--muted)}
 .hero-sub .serif{color:var(--ice);font-size:1.15em}
-.credits{margin-top:2.2rem;color:var(--muted);font-size:1.05rem;line-height:1.7}
+.credits{margin-top:2.4rem;color:var(--muted);font-size:clamp(1.02rem,1.5vw,1.25rem);line-height:1.8}
 .credits b{color:var(--snow2);font-weight:600}
 
 @keyframes gradFlow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 @keyframes slideMarquee{to{transform:translateX(-50%)}}
-.marquee{position:absolute;bottom:0;left:0;width:100vw;overflow:hidden;padding:1.05rem 0;z-index:4;
+.marquee{position:absolute;bottom:0;left:0;width:100vw;overflow:hidden;padding:1rem 0;z-index:4;
   background:rgba(8,6,17,.55);backdrop-filter:blur(8px)}
 .marquee::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--acc,#7c5cff),var(--acc2,#38e0c8),var(--acc3,#f5b544),var(--acc,#7c5cff));
   background-size:200% auto;animation:gradFlow 5s linear infinite}
 .marquee-inner{display:flex;width:max-content;will-change:transform}
-.marquee span{font-family:'Sora';font-weight:800;font-size:1.3rem;letter-spacing:.28em;text-transform:uppercase;
+.marquee span{font-family:'Sora';font-weight:800;font-size:1.25rem;letter-spacing:.26em;text-transform:uppercase;
   color:rgba(230,225,250,.85);padding:0 2rem;white-space:nowrap}
 .marquee span i{font-style:normal;background:linear-gradient(120deg,var(--acc,#7c5cff),var(--acc2,#f45b8f),var(--acc3,#f5b544));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 
-.grid{display:grid;gap:1.2rem;margin-top:1.8rem}
+.grid{display:grid;gap:1.15rem;margin-top:1.6rem}
 .g3{grid-template-columns:repeat(3,1fr)}
-.card{background:rgba(255,255,255,.045);backdrop-filter:blur(14px);border:1px solid rgba(150,130,240,.16);
-  border-radius:20px;padding:1.55rem 1.4rem;position:relative;overflow:hidden;transform-style:preserve-3d;will-change:transform}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:rgba(255,255,255,.05);backdrop-filter:blur(14px);border:1px solid rgba(150,130,240,.18);
+  border-radius:20px;padding:1.4rem 1.35rem;position:relative;overflow:hidden;transform-style:preserve-3d;will-change:transform}
 .card::after{content:"";position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s;pointer-events:none;
   background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(124,92,255,.16), transparent 40%)}
 .card:hover::after{opacity:1}
-.card .ic{font-size:2.4rem;margin-bottom:.5rem;display:block;transform:translateZ(40px)}
-.card h3{font-size:1.3rem;margin-bottom:.4rem;color:var(--ice);transform:translateZ(30px)}
-.card p{font-size:1.02rem;transform:translateZ(20px)}
-.card .tag{position:absolute;top:12px;right:16px;font-family:'Sora';font-weight:800;color:rgba(124,92,255,.22);font-size:1.7rem}
+.card .ic{font-size:2.1rem;margin-bottom:.4rem;display:block;transform:translateZ(40px)}
+.card h3{font-size:clamp(1.25rem,1.8vw,1.5rem);margin-bottom:.4rem;color:var(--ice);transform:translateZ(30px)}
+.card p{font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.5;transform:translateZ(20px)}
+.card .tag{position:absolute;top:12px;right:16px;font-family:'Sora';font-weight:800;color:rgba(124,92,255,.25);font-size:1.6rem}
 .grid .card:nth-child(3n+1){border-top:3px solid var(--pink)}
 .grid .card:nth-child(3n+2){border-top:3px solid var(--gold)}
 .grid .card:nth-child(3n){border-top:3px solid var(--mint)}
-.grid .card:nth-child(3n+1) .tag{color:rgba(244,91,143,.35)}
-.grid .card:nth-child(3n+2) .tag{color:rgba(245,181,68,.35)}
-.grid .card:nth-child(3n) .tag{color:rgba(45,212,167,.35)}
+.grid .card:nth-child(3n+1) .tag{color:rgba(244,91,143,.4)}
+.grid .card:nth-child(3n+2) .tag{color:rgba(245,181,68,.4)}
+.grid .card:nth-child(3n) .tag{color:rgba(45,212,167,.4)}
 
-.arch-wrap{display:grid;grid-template-columns:52px 1fr;gap:1.2rem;margin-top:1.5rem}
-.arch-line{position:relative}
-.arch-line svg{width:100%;height:100%;overflow:visible}
-.layers{display:flex;flex-direction:column;gap:.9rem}
-.layer{background:rgba(255,255,255,.045);border:1px solid rgba(150,130,240,.18);border-left:5px solid var(--snow);
-  border-radius:16px;padding:1.05rem 1.5rem;cursor:pointer;position:relative;overflow:hidden;transition:background .3s,border-color .3s}
+/* INVEST en dos columnas, letra grande */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:.95rem;margin-top:1.4rem}
+.layer{background:rgba(255,255,255,.05);border:1px solid rgba(150,130,240,.2);border-left:5px solid var(--snow);
+  border-radius:16px;padding:1rem 1.35rem;cursor:pointer;position:relative;overflow:hidden;transition:background .3s}
 .layer:hover{background:rgba(124,92,255,.1)}
-.layer .head{display:flex;align-items:center;gap:1.1rem}
-.layer .n{font-family:'Sora';font-weight:800;font-size:1.5rem;color:var(--snow);min-width:78px}
-.layer h3{font-size:1.22rem;color:var(--ice)}
-.layer p{font-size:1rem;margin-top:.2rem}
+.layer .head{display:flex;align-items:baseline;gap:1rem}
+.layer .n{font-family:'Sora';font-weight:800;font-size:1.3rem;color:var(--snow);min-width:3.6em}
+.layer h3{font-size:clamp(1.1rem,1.6vw,1.35rem);color:var(--ice);line-height:1.25}
+.layer p{font-size:clamp(.98rem,1.35vw,1.15rem);margin-top:.25rem}
 .layer .more{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.6,0,.2,1),margin .5s}
-.layer.open .more{max-height:160px;margin-top:.7rem}
-.layer .more p{font-size:.97rem;color:var(--snow2);border-top:1px dashed rgba(150,130,240,.25);padding-top:.7rem}
-.layer .plus{position:absolute;top:14px;right:16px;font-family:'Sora';font-weight:700;color:var(--snow2);opacity:.6;
-  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase}
-.layer:nth-child(2){border-left-color:var(--accent)}.layer:nth-child(2) .n{color:var(--accent)}
-.layer:nth-child(3){border-left-color:var(--gold)}.layer:nth-child(3) .n{color:var(--gold)}
-.layer:nth-child(4){border-left-color:var(--pink)}.layer:nth-child(4) .n{color:var(--pink)}
+.layer.open .more{max-height:200px;margin-top:.6rem}
+.layer .more p{font-size:clamp(.95rem,1.3vw,1.1rem);color:var(--snow2);border-top:1px dashed rgba(150,130,240,.3);padding-top:.6rem}
+.layer .plus{position:absolute;top:12px;right:15px;font-family:'Sora';font-weight:700;color:var(--snow2);opacity:.65;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.layers .layer:nth-child(2n){border-left-color:var(--accent)}.layers .layer:nth-child(2n) .n{color:var(--accent)}
+.layers .layer:nth-child(3){border-left-color:var(--gold)}.layers .layer:nth-child(3) .n{color:var(--gold)}
+.layers .layer:nth-child(6){border-left-color:var(--pink)}.layers .layer:nth-child(6) .n{color:var(--pink)}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
-.stat{text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(150,130,240,.16);border-radius:22px;
-  padding:1.7rem 1rem;position:relative;overflow:hidden;animation:accPulse 3.2s ease-in-out infinite}
-.stat:nth-child(2){animation-delay:1s}.stat:nth-child(3){animation-delay:2s}
-@keyframes accPulse{0%,100%{box-shadow:0 0 0 rgba(0,0,0,0)}50%{box-shadow:0 0 34px -6px var(--acc,#7c5cff)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1.8rem}
+.stat{text-align:center;background:rgba(255,255,255,.045);border:1px solid rgba(150,130,240,.18);border-radius:22px;
+  padding:1.5rem 1rem;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;top:0;left:20%;right:20%;height:1px;
   background:linear-gradient(90deg,transparent,var(--acc,var(--snow)),transparent)}
-.stat .big{font-family:'Sora';font-weight:800;font-size:clamp(2.6rem,6vw,4.2rem);line-height:1}
-.stat .lbl{color:var(--muted);font-size:1rem;margin-top:.6rem;line-height:1.5}
+.stat .big{font-family:'Sora';font-weight:800;font-size:clamp(2.6rem,6vw,4.4rem);line-height:1}
+.stat .lbl{color:var(--muted);font-size:clamp(1rem,1.4vw,1.2rem);margin-top:.55rem;line-height:1.5}
 .stat .lbl b{color:var(--ice)}
 
-.tl{margin-top:1.6rem;position:relative;padding-left:22px}
-.tl-rail{position:absolute;left:38px;top:10px;bottom:10px;width:3px;border-radius:3px;
+.tl{margin-top:1.4rem;position:relative;padding-left:20px}
+.tl-rail{position:absolute;left:36px;top:10px;bottom:10px;width:3px;border-radius:3px;
   background:linear-gradient(180deg,var(--snow),var(--accent),var(--gold));transform-origin:top;transform:scaleY(0)}
-.tl-item{display:flex;gap:1.2rem;padding:.5rem 0;align-items:flex-start;position:relative}
-.tl-dot{min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--snow),var(--violet));
-  display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:700;font-size:.92rem;color:#f1ecff;
+.tl-item{display:flex;gap:1.2rem;padding:.55rem 0;align-items:flex-start;position:relative}
+.tl-dot{min-width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--snow),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:700;font-size:1rem;color:#f1ecff;
   box-shadow:0 0 16px rgba(124,92,255,.45);z-index:2}
-.tl-item h3{font-size:1.2rem;color:var(--ice)}
-.tl-item p{font-size:1rem}
+.tl-item h3{font-size:clamp(1.2rem,1.8vw,1.5rem);color:var(--ice)}
+.tl-item h3 small{font-family:'JetBrains Mono';font-size:.68em;color:var(--gold);font-weight:600;margin-left:.5em}
+.tl-item p{font-size:clamp(1rem,1.45vw,1.22rem)}
 
-.seclist{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
-.sec{display:flex;gap:.9rem;align-items:flex-start;background:rgba(255,255,255,.045);border:1px solid rgba(150,130,240,.16);
+.seclist{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.4rem}
+.sec{display:flex;gap:.9rem;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(150,130,240,.18);
   border-radius:16px;padding:1rem 1.2rem;will-change:transform}
-.sec .ic{font-size:1.8rem}
-.sec b{color:var(--ice);font-family:'Sora';font-size:1.1rem}
-.sec span{color:var(--muted);font-size:.98rem;display:block;margin-top:.18rem;line-height:1.5}
+.sec .ic{font-size:1.9rem}
+.sec b{color:var(--ice);font-family:'Sora';font-size:clamp(1.08rem,1.5vw,1.28rem)}
+.sec b small{font-family:'JetBrains Mono';font-size:.68em;color:var(--gold);margin-left:.5em}
+.sec span{color:var(--muted);font-size:clamp(.98rem,1.35vw,1.15rem);display:block;margin-top:.2rem;line-height:1.5}
+.sec span em{color:var(--mint);font-style:normal;font-weight:600}
 .seclist .sec:nth-child(odd){border-left:4px solid var(--pink)}
 .seclist .sec:nth-child(even){border-left:4px solid var(--mint)}
 
 .term{background:#0c0a1a;border:1px solid rgba(150,130,240,.25);border-radius:16px;overflow:hidden;
-  box-shadow:0 30px 60px rgba(0,0,0,.5);margin-top:1.3rem;text-align:left}
+  box-shadow:0 30px 60px rgba(0,0,0,.5);text-align:left}
 .term-bar{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);padding:.65rem 1rem;
   border-bottom:1px solid rgba(150,130,240,.15)}
 .term-bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
 .term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
-.term-bar span{font-family:'JetBrains Mono';font-size:.75rem;color:var(--muted);margin-left:.6rem}
-.term-body{padding:1.1rem 1.3rem;font-family:'JetBrains Mono',monospace;font-size:clamp(.85rem,1.45vw,1.08rem);line-height:1.75;min-height:200px}
-.term-body .kw{color:#a78bff}.term-body .str{color:#2dd4a7}.term-body .fn{color:#f5b544}.term-body .cm{color:#7d6ca8}
+.term-bar span{font-family:'JetBrains Mono';font-size:.78rem;color:var(--muted);margin-left:.6rem}
+.term-body{padding:1.1rem 1.3rem;font-family:'JetBrains Mono',monospace;font-size:clamp(.95rem,1.45vw,1.15rem);line-height:1.8;min-height:230px}
+.term-body .kw{color:#a78bff;font-weight:600}.term-body .str{color:#2dd4a7}.term-body .fn{color:#f5b544;font-weight:600}.term-body .cm{color:#8d7cb8}
 .cursor{display:inline-block;width:8px;height:1.1em;background:var(--snow);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.result-rows{margin-top:.6rem;border-top:1px solid rgba(150,130,240,.2);padding-top:.6rem}
-.rrow{display:grid;grid-template-columns:2fr 1.2fr 1fr;gap:1rem;color:var(--ice);opacity:0}
-.rrow.h{color:var(--snow2);font-weight:600}
+.bad-list{list-style:none;margin-top:1rem}
+.bad-list li{padding:.55rem 0;font-size:clamp(1.15rem,1.8vw,1.5rem);color:var(--muted);font-family:'Instrument Serif',serif;font-style:italic}
+.bad-list li s{text-decoration-color:var(--pink);text-decoration-thickness:3px}
 .replay{margin-top:1rem;background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.45);color:var(--snow2);
-  font-family:'Sora';font-weight:600;font-size:.85rem;padding:.6em 1.5em;border-radius:50px;cursor:pointer;transition:.3s}
+  font-family:'Sora';font-weight:600;font-size:.9rem;padding:.6em 1.5em;border-radius:50px;cursor:pointer;transition:.3s}
 .replay:hover{background:var(--snow);color:#0a0618;box-shadow:0 0 24px rgba(124,92,255,.5)}
 
-.two{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center}
+.two{display:grid;grid-template-columns:1fr 1.15fr;gap:2.6rem;align-items:center}
 ul.clean{list-style:none;margin-top:1rem}
-ul.clean li{padding:.5rem 0 .5rem 2rem;position:relative;color:var(--muted);line-height:1.55;font-size:1.08rem}
+ul.clean li{padding:.55rem 0 .55rem 2rem;position:relative;color:var(--muted);line-height:1.55;font-size:clamp(1.1rem,1.6vw,1.35rem)}
 ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
+ul.clean li b{color:var(--ice)}
+
+.iacols{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1.6rem}
+.iacol{border-radius:20px;padding:1.5rem 1.6rem;border:1px solid rgba(150,130,240,.2);background:rgba(255,255,255,.045)}
+.iacol.ok{border-top:4px solid var(--mint)}
+.iacol.fix{border-top:4px solid var(--pink)}
+.iacol h3{font-family:'Sora';font-size:clamp(1.15rem,1.7vw,1.4rem);letter-spacing:.06em;margin-bottom:1rem}
+.iacol.ok h3{color:var(--mint)} .iacol.fix h3{color:var(--pink)}
+.iacol li{list-style:none;display:flex;gap:.8em;font-size:clamp(1.02rem,1.5vw,1.25rem);color:var(--muted);
+  line-height:1.5;padding:.5em 0;border-bottom:1px dashed rgba(150,130,240,.2)}
+.iacol li:last-child{border-bottom:none}
+.iacol li b{color:var(--ice)}
+.iacol .m{font-family:'Sora';font-weight:800}
+.iacol.ok .m{color:var(--mint)} .iacol.fix .m{color:var(--pink)}
 
 .progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--snow),var(--accent));z-index:60;box-shadow:0 0 12px var(--snow)}
 .nav-btn{position:fixed;top:50%;transform:translateY(-50%);z-index:60;width:54px;height:54px;border-radius:50%;
@@ -188,22 +206,24 @@ ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
   backdrop-filter:blur(8px);transition:.3s;opacity:.4}
 .nav-btn:hover{opacity:1;background:var(--snow);color:#0a0618;box-shadow:0 0 26px rgba(124,92,255,.6)}
 .prev{left:22px}.next{right:22px}
-.dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);z-index:60;display:flex;gap:11px;transition:bottom .5s cubic-bezier(.6,0,.2,1)}
+.dots{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:60;display:flex;gap:11px}
 .dot{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.35s}
 .dot.active{background:var(--snow);transform:scale(1.5);box-shadow:0 0 14px var(--snow)}
-.counter-badge{position:fixed;bottom:82px;right:26px;z-index:60;font-family:'Sora';font-weight:600;color:var(--muted);
+.counter-badge{position:fixed;bottom:76px;right:26px;z-index:60;font-family:'Sora';font-weight:600;color:var(--muted);
   font-size:.95rem;background:rgba(255,255,255,.06);padding:.4em 1em;border-radius:50px;border:1px solid rgba(150,130,240,.2);
-  backdrop-filter:blur(6px);transition:bottom .5s cubic-bezier(.6,0,.2,1)}
+  backdrop-filter:blur(6px)}
 .brand{position:fixed;top:16px;left:22px;z-index:60;font-family:'Sora';font-weight:700;font-size:1rem;color:var(--snow2);letter-spacing:.05em}
 
 .thanks-title{font-size:clamp(2.6rem,8vw,5.5rem);margin:.15em 0;perspective:800px}
 
-@media(max-width:860px){
-  .g3,.stats,.two,.seclist{grid-template-columns:1fr}
+@media(max-width:900px){
+  .g3,.stats,.two,.seclist,.layers,.iacols,.g2{grid-template-columns:1fr}
   .nav-btn{width:42px;height:42px}
-  .arch-wrap{grid-template-columns:1fr}.arch-line{display:none}
   .marquee span{font-size:.85rem}
-  .gif-corner{display:none}
+  .ebadge{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
@@ -216,7 +236,7 @@ ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
 <div class="deck">
   <div class="track" id="track">
 
-    <!-- 1 · HERO -->
+    <!-- 1 · PORTADA -->
     <section class="slide center s0" style="--acc:#7c5cff;--acc2:#a78bff;--acc3:#38e0c8">
       <img class="gif-bg" src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" loading="lazy" alt="">
       <div class="blob" data-depth="30" style="width:440px;height:440px;background:var(--snow);top:-90px;left:-70px"></div>
@@ -224,115 +244,101 @@ ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
       <div class="content">
         <svg id="emblem" viewBox="-110 -110 220 220" aria-hidden="true"></svg>
         <h1 class="hero-title"><span class="grad split" id="heroTitle">FinNova NextGen</span></h1>
-        <p class="hero-sub a">auditoría del <span class="serif">Product Backlog</span> con IA</p>
-        <p class="a" style="max-width:720px;margin:1rem auto 0">Evaluación independiente del backlog de una SuperApp financiera, antes de aprobar el presupuesto de desarrollo.</p>
+        <p class="hero-sub a">Auditoría del <span class="serif">Product Backlog</span> con IA</p>
+        <p class="a" style="max-width:780px;margin:1rem auto 0">Evaluación independiente del backlog de una SuperApp financiera, solicitada por la Junta Directiva antes de aprobar el presupuesto de desarrollo.</p>
         <div class="credits a">
-          Caso de Estudio Avanzado &nbsp;|&nbsp; <b>Grupo 8 · SC-505 Administración de Proyectos</b><br>
-          <b>Nairyth Araya Torres · Monserrath Piedra La Touche · Carolina Solano Chinchilla · María Catalina Valverde Arroyo</b><br>
-          Universidad Fidélitas — V Cuatrimestre 2026 &nbsp;|&nbsp; Profesor: <b>David Antonio Hernández Araya</b>
+          Caso de Estudio Avanzado &nbsp;·&nbsp; <b>Grupo 8</b><br>
+          <b>Nairyth Valeria Araya Torres &nbsp;·&nbsp; Monserrath Piedra La Touche<br>
+          Carolina Solano Chinchilla &nbsp;·&nbsp; María Catalina Valverde Arroyo</b><br>
+          Universidad Fidélitas — V Cuatrimestre 2026 &nbsp;·&nbsp; Profesor: <b>David Antonio Hernández Araya</b>
         </div>
       </div>
       <div class="marquee" data-words="SCRUM ◆ PRODUCT BACKLOG ◆ INVEST ◆ MoSCoW ◆ IA APLICADA ◆ GOBERNANZA ◆ AUDITORÍA"></div>
     </section>
 
-    <!-- 2 · AGENDA -->
-    <section class="slide s1" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#2dd4a7">
-      <img class="gif-corner" src="https://media.giphy.com/media/xTiTnxpQ3ghPiB2Hp6/giphy.gif" loading="lazy" alt="" style="width:300px;top:7vh;right:5vw;transform:rotate(3deg)">
-      <div class="blob" data-depth="40" style="width:360px;height:360px;background:var(--pink);top:-70px;right:-40px;opacity:.15"></div>
-      <div class="content">
-        <span class="kicker a">Contenido</span>
-        <h2 class="a">¿Qué vamos a <span class="serif grad">revisar</span>?</h2>
-        <div class="grid g3">
-          <div class="card tilt a"><span class="tag">01</span><span class="ic">🏦</span><h3>El caso</h3><p>FinNova Group y su SuperApp financiera.</p></div>
-          <div class="card tilt a"><span class="tag">02</span><span class="ic">🔍</span><h3>Hallazgos</h3><p>Qué encontramos en el backlog inicial.</p></div>
-          <div class="card tilt a"><span class="tag">03</span><span class="ic">✅</span><h3>INVEST</h3><p>Historias que no pasan el filtro.</p></div>
-          <div class="card tilt a"><span class="tag">04</span><span class="ic">📋</span><h3>Criterios</h3><p>De ambiguos a medibles con IA.</p></div>
-          <div class="card tilt a"><span class="tag">05</span><span class="ic">⚖️</span><h3>Riesgos</h3><p>Regulatorios y de inteligencia artificial.</p></div>
-          <div class="card tilt a"><span class="tag">06</span><span class="ic">🧭</span><h3>Recomendación</h3><p>El veredicto para la Junta Directiva.</p></div>
-        </div>
-      </div>
-      <div class="marquee" data-words="EL CASO ◆ HALLAZGOS ◆ INVEST ◆ CRITERIOS ◆ MoSCoW ◆ RIESGOS ◆ RECOMENDACIÓN"></div>
-    </section>
-
-    <!-- 3 · CONTEXTO -->
-    <section class="slide s2" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#7c5cff">
+    <!-- 2 · EL CASO -->
+    <section class="slide s1" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#7c5cff">
       <div class="blob" data-depth="45" style="width:380px;height:380px;background:var(--mint);bottom:-90px;left:-60px;opacity:.15"></div>
       <div class="content">
-        <span class="kicker a">El caso</span>
+        <span class="kicker a">El caso en 30 segundos</span>
         <h2 class="a">El cliente: <span class="serif grad">FinNova Group</span></h2>
-        <p class="a" style="max-width:900px">Corporación financiera que opera en Costa Rica, Panamá y Guatemala. Desarrolla <span class="hl">FinNova NextGen</span>, una SuperApp que integra cuentas, inversiones, pagos, créditos, billetera digital y un chatbot de IA generativa.</p>
-        <ul class="clean" style="max-width:900px">
-          <li class="a">Nos contratan como firma de <span class="hl">Agile Consulting</span></li>
-          <li class="a">La Junta pide una <span class="hl">evaluación independiente</span> del backlog</li>
-          <li class="a">El objetivo: revisarlo antes de <span class="hl">aprobar el presupuesto</span> del próximo trimestre</li>
+        <p class="a" style="max-width:1000px">Corporación financiera con operación en Costa Rica, Panamá y Guatemala. Está construyendo <span class="hl">FinNova NextGen</span>: una SuperApp que integra cuentas, pagos, créditos, inversiones, billetera digital y un chatbot de IA generativa. El problema: su backlog fue escrito por varias personas <span class="hl">sin una estrategia uniforme</span>.</p>
+        <ul class="clean" style="max-width:1000px">
+          <li class="a">Nos contratan como firma de <b>Agile Consulting</b> para hacer una <b>auditoría independiente</b></li>
+          <li class="a">La Junta Directiva decide con nuestro informe si <b>aprueba el presupuesto</b> del próximo trimestre</li>
         </ul>
         <div class="stats">
-          <div class="stat a"><div class="big grad"><span class="cnt" data-t="3">0</span></div><div class="lbl"><b>países</b> de operación<br>CR · Panamá · Guatemala</div></div>
-          <div class="stat a"><div class="big grad"><span class="cnt" data-t="15">0</span></div><div class="lbl">ítems de <b>Product Backlog</b><br>auditados</div></div>
-          <div class="stat a"><div class="big grad"><span class="cnt" data-t="6">0</span></div><div class="lbl"><b>historias de usuario</b><br>evaluadas con INVEST</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="15">0</span></div><div class="lbl">ítems de <b>Product Backlog</b> auditados</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="6">0</span></div><div class="lbl"><b>historias de usuario</b> evaluadas con INVEST</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="10">0</span></div><div class="lbl"><b>riesgos</b> identificados y mitigados</div></div>
         </div>
       </div>
-      <div class="marquee" data-words="SUPERAPP FINANCIERA ◆ 3 PAÍSES ◆ AGILE CONSULTING ◆ EVALUACIÓN INDEPENDIENTE ◆ 15 ÍTEMS"></div>
+      <div class="marquee" data-words="SUPERAPP FINANCIERA ◆ 3 PAÍSES ◆ AGILE CONSULTING ◆ EVALUACIÓN INDEPENDIENTE ◆ PRESUPUESTO EN JUEGO"></div>
     </section>
 
-    <!-- 4 · HALLAZGOS -->
-    <section class="slide s3" style="--acc:#f5b544;--acc2:#f45b8f;--acc3:#38e0c8">
-      <img class="gif-corner" src="https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif" loading="lazy" alt="" style="width:240px;bottom:11vh;right:5vw;transform:rotate(-3deg)">
+    <!-- 3 · HALLAZGOS -->
+    <section class="slide s2" style="--acc:#f5b544;--acc2:#f45b8f;--acc3:#38e0c8">
+      <div class="ebadge">ENTREGABLE 1 · <b>LISTA DE HALLAZGOS</b></div>
       <div class="blob" data-depth="35" style="width:360px;height:360px;background:var(--gold);top:-80px;left:-50px;opacity:.13"></div>
       <div class="content">
-        <span class="kicker a">Punto 1 · Hallazgos</span>
-        <h2 class="a">Lo que <span class="serif grad">encontramos</span></h2>
+        <span class="kicker a">Hallazgos de la auditoría</span>
+        <h2 class="a">Seis fallas, <span class="serif grad">un mismo origen</span></h2>
         <div class="grid g3">
-          <div class="card tilt a"><span class="ic">🔁</span><h3>Duplicidades</h3><p>PB03 y PB08 son la misma transferencia internacional; PB05 y PB13 se solapan al usar IA.</p></div>
-          <div class="card tilt a"><span class="ic">🧱</span><h3>Tareas técnicas</h3><p>Kubernetes, PostgreSQL y Azure no son historias de negocio: son habilitadores.</p></div>
-          <div class="card tilt a"><span class="ic">🎨</span><h3>Bajo valor</h3><p>"Elegir entre 25 colores" es puro desperdicio para una app financiera.</p></div>
-          <div class="card tilt a"><span class="ic">📊</span><h3>Prioridades infladas</h3><p>Casi todo está en "Alta"; así, en la práctica, nada es prioritario.</p></div>
-          <div class="card tilt a"><span class="ic">🐘</span><h3>Épicas disfrazadas</h3><p>HU-02 abarca cualquier transferencia, moneda y país: no es una historia.</p></div>
-          <div class="card tilt a"><span class="ic">🔗</span><h3>Dependencias ocultas</h3><p>Los pagos dependen de la autenticación, que no está priorizada primero.</p></div>
+          <div class="card tilt a"><span class="tag">01</span><span class="ic">🔁</span><h3>Duplicidades</h3><p>PB03 y PB08 son la misma transferencia internacional escrita dos veces: dos equipos podrían construirla por separado, duplicando el costo. Se fusionan en un solo ítem.</p></div>
+          <div class="card tilt a"><span class="tag">02</span><span class="ic">🤖</span><h3>Solapamiento de IA</h3><p>PB05 (inversiones) y PB13 (préstamos) son funciones distintas que comparten el mismo motor de IA: deben regirse por un único marco de gobernanza, no por reglas separadas.</p></div>
+          <div class="card tilt a"><span class="tag">03</span><span class="ic">🧱</span><h3>Tareas técnicas</h3><p>Kubernetes, PostgreSQL y Azure no son necesidades del cliente: son habilitadores. Van al backlog de ingeniería para no distorsionar el foco del negocio.</p></div>
+          <div class="card tilt a"><span class="tag">04</span><span class="ic">📊</span><h3>Prioridades infladas</h3><p>10 de 15 ítems estaban en "Alta": cuando casi todo es prioritario, nada lo es. Y PB10 (bitácoras) estaba en "Media" siendo un requisito legal para operar.</p></div>
+          <div class="card tilt a"><span class="tag">05</span><span class="ic">🐘</span><h3>Épicas y vaguedad</h3><p>"Usar la app rápidamente" no se puede probar. Y HU-02 abarca cualquier transferencia, moneda y país: eso es una épica que hay que dividir, no una historia.</p></div>
+          <div class="card tilt a"><span class="tag">06</span><span class="ic">🔗</span><h3>Dependencias ocultas</h3><p>Nadie transfiere dinero sin iniciar sesión: los pagos dependen de la autenticación (PB09), que no estaba priorizada primero. Sin esa secuencia, el sprint se bloquea.</p></div>
         </div>
       </div>
-      <div class="marquee" data-words="DUPLICIDADES ◆ HABILITADORES ◆ DESPERDICIO ◆ PRIORIDADES INFLADAS ◆ ÉPICAS ◆ DEPENDENCIAS"></div>
+      <div class="marquee" data-words="DUPLICIDADES ◆ SOLAPAMIENTO ◆ HABILITADORES ◆ PRIORIDADES INFLADAS ◆ ÉPICAS ◆ DEPENDENCIAS"></div>
+    </section>
+
+    <!-- 4 · LA DISTINCIÓN CLAVE -->
+    <section class="slide s3" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#2dd4a7">
+      <div class="ebadge">ENTREGABLE 1 · <b>HALLAZGOS (DETALLE)</b></div>
+      <div class="blob" data-depth="40" style="width:360px;height:360px;background:var(--pink);top:-70px;right:-40px;opacity:.15"></div>
+      <div class="content">
+        <span class="kicker a">La distinción que sostiene la auditoría</span>
+        <h2 class="a">Duplicado <span class="serif grad">no es lo mismo</span> que solapamiento</h2>
+        <div class="grid g3">
+          <div class="card tilt a"><span class="ic">🟰</span><h3>Duplicidad · PB03 = PB08</h3><p><b style="color:var(--ice)">Misma funcionalidad, dos redacciones.</b> "Realizar transferencias internacionales" y "transferir dinero a cuentas internacionales". Riesgo: doble estimación y doble desarrollo. Corrección: <b style="color:var(--mint)">fusionar</b>.</p></div>
+          <div class="card tilt a"><span class="ic">🔀</span><h3>Solapamiento · PB05 + PB13</h3><p><b style="color:var(--ice)">Funciones distintas, mismo motor.</b> Recomendar inversiones y preaprobar préstamos usan IA sobre datos financieros del cliente. Corrección: <b style="color:var(--mint)">un solo marco de gobernanza</b> (auditoría del modelo + supervisión humana).</p></div>
+          <div class="card tilt a"><span class="ic">🚪</span><h3>Doble canal · PB07 y HU-06</h3><p><b style="color:var(--ice)">El mismo requerimiento entró dos veces</b>: como ítem del backlog y como historia de usuario. Es la prueba de que nadie estaba depurando: <b style="color:var(--mint)">falta un Product Owner</b> con criterio único.</p></div>
+        </div>
+        <p class="lead a" style="margin-top:1.8rem;text-align:center">Los tres problemas parecen iguales, pero <span class="serif grad">cada uno se corrige distinto</span>.</p>
+      </div>
+      <div class="marquee" data-words="FUSIONAR ◆ GOBERNANZA ÚNICA ◆ PRODUCT OWNER ◆ PB03=PB08 ◆ PB05+PB13 ◆ PB07·HU-06"></div>
     </section>
 
     <!-- 5 · INVEST -->
     <section class="slide s4" style="--acc:#8b5cf6;--acc2:#a78bff;--acc3:#38e0c8">
-      <img class="gif-corner" src="https://media.giphy.com/media/l0HlNQ03J5JxX2rGU/giphy.gif" loading="lazy" alt="" style="width:260px;top:7vh;right:4vw;transform:rotate(2deg);opacity:.7">
+      <div class="ebadge">ENTREGABLE 5 · <b>HISTORIAS REESCRITAS</b></div>
       <div class="blob" data-depth="50" style="width:340px;height:340px;background:var(--violet);top:-70px;right:-50px;opacity:.16"></div>
       <div class="content">
-        <span class="kicker a">Punto 2 · INVEST</span>
-        <h2 class="a">Historias que <span class="serif grad">no pasan el filtro</span></h2>
-        <p class="a" style="max-width:820px">Cada historia pasó por INVEST (Independiente, Negociable, Valiosa, Estimable, Pequeña, Testeable). <span style="color:var(--snow2)">Hacé clic para ver el veredicto.</span></p>
-        <div class="arch-wrap">
-          <div class="arch-line">
-            <svg viewBox="0 0 40 400" preserveAspectRatio="none">
-              <path id="archPath" d="M20 10 L20 390" stroke="url(#archGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <defs><linearGradient id="archGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#7c5cff"/><stop offset=".5" stop-color="#38e0c8"/><stop offset="1" stop-color="#f5b544"/>
-              </linearGradient></defs>
-            </svg>
-          </div>
-          <div class="layers">
-            <div class="layer a" onclick="this.classList.toggle('open')">
-              <span class="plus">+ info</span>
-              <div class="head"><span class="n">HU-01</span><div><h3>"Usar la app rápidamente"</h3><p>Incumple Valiosa, Estimable y Testeable.</p></div></div>
-              <div class="more"><p>"Rápidamente" no es medible: QA no puede certificar un adjetivo. La reescribimos con una métrica: <b>acceso en ≤ 3 segundos</b>.</p></div>
-            </div>
-            <div class="layer a" onclick="this.classList.toggle('open')">
-              <span class="plus">+ info</span>
-              <div class="head"><span class="n">HU-02</span><div><h3>"Cualquier transferencia, moneda y país"</h3><p>Es una épica, no una historia.</p></div></div>
-              <div class="more"><p>Mezcla SINPE nacional con transferencias SWIFT, mundos distintos. Se <b>divide en historias pequeñas</b> e independientes.</p></div>
-            </div>
-            <div class="layer a" onclick="this.classList.toggle('open')">
-              <span class="plus">+ info</span>
-              <div class="head"><span class="n">HU-05</span><div><h3>"Recomendaciones perfectas de IA"</h3><p>Incumple Testeable.</p></div></div>
-              <div class="more"><p>La "perfección" en predicción financiera no existe y expone a responsabilidad legal. Añadimos <b>supervisión humana y advertencias</b>.</p></div>
-            </div>
-            <div class="layer a" onclick="this.classList.toggle('open')">
-              <span class="plus">+ info</span>
-              <div class="head"><span class="n">HU-06</span><div><h3>"Cerrar todo con un botón"</h3><p>Incumple Independiente y Pequeña.</p></div></div>
-              <div class="more"><p>Cada producto tiene reglas y contratos propios. Se hace <b>una historia por producto</b>, con confirmación en dos pasos.</p></div>
-            </div>
-          </div>
+        <span class="kicker a">Filtro INVEST · las 6 historias</span>
+        <h2 class="a" style="font-size:clamp(2.2rem,4.6vw,3.8rem)">Ninguna historia <span class="serif grad">pasó el filtro</span> — todas se reescribieron</h2>
+        <p class="a" style="max-width:1000px">INVEST exige que cada historia sea Independiente, Negociable, Valiosa, Estimable, Pequeña y Testeable. <span style="color:var(--snow2)">Hacé clic en cada una para ver cómo quedó reescrita.</span></p>
+        <div class="layers">
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-01</span><div><h3>"Usar la app rápidamente"</h3><p>Incumple Estimable y Testeable: QA no puede certificar un adjetivo.</p></div></div>
+            <div class="more"><p>✎ Reescrita: <b>iniciar sesión y llegar a mis cuentas en menos de 3 segundos y máximo 2 toques</b>.</p></div></div>
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-02</span><div><h3>"Cualquier transferencia, moneda y país"</h3><p>Es una épica: mezcla SINPE nacional con SWIFT internacional.</p></div></div>
+            <div class="more"><p>✎ Se dividió en 3 historias: <b>nacional inmediata, recurrente programada e internacional en USD</b> con controles cambiarios.</p></div></div>
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-03</span><div><h3>"Implementar Kubernetes"</h3><p>Incumple Valiosa: el desarrollador no es el usuario final.</p></div></div>
+            <div class="more"><p>✎ Reclasificada como <b>habilitador técnico</b> del backlog de ingeniería (Architectural Runway).</p></div></div>
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-04</span><div><h3>"Experiencia moderna e innovadora"</h3><p>Aspiración de marca, no requisito estimable ni testeable.</p></div></div>
+            <div class="more"><p>✎ Reescrita con criterios objetivos: <b>accesibilidad WCAG 2.1 AA y carga en menos de 2 segundos</b>.</p></div></div>
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-05</span><div><h3>"Recomendaciones perfectas de IA"</h3><p>La perfección financiera no existe; expone a responsabilidad legal.</p></div></div>
+            <div class="more"><p>✎ Reescrita: recomendaciones <b>con nivel de riesgo, advertencia de no garantía y revisión de un asesor certificado</b>.</p></div></div>
+          <div class="layer a" onclick="this.classList.toggle('open')"><span class="plus">+ ver corrección</span>
+            <div class="head"><span class="n">HU-06</span><div><h3>"Cerrar todo con un botón"</h3><p>Cada producto tiene contratos y reglas propias: imposible en una sola historia.</p></div></div>
+            <div class="more"><p>✎ Se dividió: <b>una historia por producto</b>, con confirmación en dos pasos y validación de saldos pendientes.</p></div></div>
         </div>
       </div>
       <div class="marquee" data-words="INDEPENDIENTE ◆ NEGOCIABLE ◆ VALIOSA ◆ ESTIMABLE ◆ PEQUEÑA ◆ TESTEABLE"></div>
@@ -340,109 +346,146 @@ ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
 
     <!-- 6 · CRITERIOS -->
     <section class="slide s5" style="--acc:#38e0c8;--acc2:#f5b544;--acc3:#f45b8f">
+      <div class="ebadge">ENTREGABLE 6 · <b>CRITERIOS MEDIBLES</b></div>
       <div class="blob" data-depth="40" style="width:380px;height:380px;background:var(--mint);bottom:-100px;right:-60px;opacity:.13"></div>
-      <div class="content">
-        <span class="kicker a">Punto 3 · Criterios de aceptación</span>
-        <h2 class="a">De <span class="serif grad">ambiguos a medibles</span></h2>
-        <p class="a" style="max-width:820px">Los criterios decían "debe ser rápido" o "no debe equivocarse". Con IA los reescribimos en formato Dado–Cuando–Entonces, con umbrales verificables:</p>
-        <div class="term a">
-          <div class="term-bar"><i></i><i></i><i></i><span>gemini — criterios de aceptación (BDD)</span></div>
-          <div class="term-body" id="termBody"></div>
+      <div class="content two">
+        <div>
+          <span class="kicker a">Criterios de aceptación</span>
+          <h2 class="a" style="font-size:clamp(2.2rem,4.4vw,3.6rem)">De adjetivos a <span class="serif grad">umbrales medibles</span></h2>
+          <p class="a">Los criterios originales no le servían a QA — nadie puede probar un adjetivo ni una promesa absoluta:</p>
+          <ul class="bad-list a">
+            <li><s>"El sistema debe ser rápido"</s></li>
+            <li><s>"Debe funcionar siempre"</s></li>
+            <li><s>"La IA no debe equivocarse"</s></li>
+            <li><s>"Cierre inmediato, sin intervención humana"</s></li>
+          </ul>
+          <p class="a" style="font-size:clamp(1rem,1.4vw,1.2rem);margin-top:.8rem">Con IA los reescribimos en formato <b style="color:var(--ice)">Dado–Cuando–Entonces</b>, con números que sí se pueden verificar →</p>
         </div>
-        <button class="replay a" onclick="runTyping()">▶ Repetir demo</button>
+        <div>
+          <div class="term a">
+            <div class="term-bar"><i></i><i></i><i></i><span>criterios reescritos — formato BDD (validados por el equipo)</span></div>
+            <div class="term-body" id="termBody"></div>
+          </div>
+          <button class="replay a" onclick="runTyping()">▶ Repetir</button>
+        </div>
       </div>
-      <div class="marquee" data-words="DADO ◆ CUANDO ◆ ENTONCES ◆ MEDIBLE ◆ VERIFICABLE ◆ ≤ 1.8 s ◆ CHECKLIST"></div>
+      <div class="marquee" data-words="DADO ◆ CUANDO ◆ ENTONCES ◆ ≤ 1.8 SEGUNDOS ◆ 99.9% DISPONIBILIDAD ◆ VERIFICABLE POR QA"></div>
     </section>
 
-    <!-- 7 · MoSCoW -->
+    <!-- 7 · BACKLOG CORREGIDO -->
     <section class="slide s6" style="--acc:#f5b544;--acc2:#2dd4a7;--acc3:#a78bff">
-      <img class="gif-corner" src="https://media.giphy.com/media/67ThRZlYBvibtdF9JH/giphy.gif" loading="lazy" alt="" style="width:250px;bottom:11vh;right:5vw;transform:rotate(-2deg)">
+      <div class="ebadge">ENTREGABLE 4 · <b>BACKLOG CORREGIDO Y PRIORIZADO</b></div>
       <div class="blob" data-depth="40" style="width:380px;height:380px;background:var(--gold);top:-90px;left:-60px;opacity:.13"></div>
       <div class="content">
-        <span class="kicker a">Punto 4 · Priorización</span>
-        <h2 class="a">Backlog <span class="serif grad">reorganizado</span> (MoSCoW)</h2>
+        <span class="kicker a">Priorización MoSCoW · en el Excel entregado</span>
+        <h2 class="a" style="font-size:clamp(2.2rem,4.6vw,3.8rem)">De 15 ítems confusos a <span class="serif grad">18 historias trazables</span></h2>
         <div class="tl">
           <div class="tl-rail" id="tlRail"></div>
-          <div class="tl-item a"><div class="tl-dot">M</div><div><h3>Must — indispensable</h3><p>Saldo, SINPE Móvil, autenticación y bitácoras de auditoría: lo que la app necesita para operar y cumplir la ley.</p></div></div>
-          <div class="tl-item a"><div class="tl-dot">S</div><div><h3>Should — alta prioridad</h3><p>Pago de servicios públicos y estados de cuenta en PDF.</p></div></div>
-          <div class="tl-item a"><div class="tl-dot">C</div><div><h3>Could — si hay capacidad</h3><p>Transferencias internacionales y préstamos con IA, siempre con controles.</p></div></div>
-          <div class="tl-item a"><div class="tl-dot">W</div><div><h3>Won't — fuera de este trimestre</h3><p>IA de inversión, cierre express de productos y los 25 colores.</p></div></div>
-          <div class="tl-item a"><div class="tl-dot">T</div><div><h3>Técnico — backlog aparte</h3><p>Kubernetes, PostgreSQL y Azure van al Architectural Runway, sin competir con el negocio.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">M</div><div><h3>Must — 6 historias <small>29 SP</small></h3><p>Saldo, autenticación biométrica, SINPE Móvil, pago de servicios y bitácoras de auditoría: lo que la app necesita para operar y cumplir la ley desde el día uno.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">S</div><div><h3>Should — 7 historias <small>40 SP</small></h3><p>Transferencias nacionales e internacionales, estados de cuenta, notificaciones y bloqueo de tarjeta: alto valor apenas la base esté estable.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">C</div><div><h3>Could — 4 historias <small>36 SP</small></h3><p>Los módulos de IA (inversiones y préstamos) entran solo si hay capacidad y con sus controles de gobernanza ya definidos.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">W</div><div><h3>Won't — este trimestre <small>2 SP</small></h3><p>La personalización de temas queda reducida (de 25 colores a 4 temas) y despriorizada por bajo valor de negocio.</p></div></div>
+          <div class="tl-item a"><div class="tl-dot">⚙</div><div><h3>Backlog técnico aparte</h3><p>Kubernetes, PostgreSQL y Azure van al Architectural Runway. Cada historia del Excel indica su origen: fusiones, divisiones y reescrituras 100% trazables.</p></div></div>
         </div>
       </div>
-      <div class="marquee" data-words="MUST ◆ SHOULD ◆ COULD ◆ WON'T ◆ HABILITADORES TÉCNICOS ◆ VALOR · RIESGO · DEPENDENCIAS"></div>
+      <div class="marquee" data-words="MUST 29 SP ◆ SHOULD 40 SP ◆ COULD 36 SP ◆ WON'T 2 SP ◆ FIBONACCI ◆ 100% TRAZABLE"></div>
     </section>
 
-    <!-- 8 · RIESGOS -->
-    <section class="slide s7" style="--acc:#f45b8f;--acc2:#8b5cf6;--acc3:#38e0c8">
-      <img class="gif-corner" src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" loading="lazy" alt="" style="width:230px;bottom:9vh;right:4vw;transform:rotate(2deg);opacity:.7">
+    <!-- 8 · SPRINT 1 -->
+    <section class="slide s7" style="--acc:#38e0c8;--acc2:#7c5cff;--acc3:#f5b544">
+      <div class="ebadge">ENTREGABLE · <b>SPRINT PLANNING (EXCEL)</b></div>
+      <div class="blob" data-depth="45" style="width:380px;height:380px;background:var(--accent);bottom:-90px;left:-60px;opacity:.14"></div>
+      <div class="content">
+        <span class="kicker a">Sprint Planning · Primer Sprint</span>
+        <h2 class="a" style="font-size:clamp(2.2rem,4.6vw,3.8rem)">Sprint 1: la <span class="serif grad">base transaccional segura</span></h2>
+        <p class="lead a" style="max-width:1000px">Objetivo: <span class="serif">"que el cliente pueda autenticarse, ver su saldo y pagar por SINPE y servicios públicos, con trazabilidad de auditoría".</span></p>
+        <ul class="clean a" style="max-width:1000px;columns:2;column-gap:3rem">
+          <li><b>PB-02</b> Login biométrico + PIN (Ley 8968) — 8 SP</li>
+          <li><b>PB-01</b> Saldo consolidado en ≤ 1.8 s — 3 SP</li>
+          <li><b>PB-03</b> SINPE Móvil (API del BCCR) — 5 SP</li>
+          <li><b>PB-04</b> Pago de servicios públicos — 5 SP</li>
+          <li><b>PB-05</b> Bitácoras de auditoría — 3 SP</li>
+        </ul>
+        <div class="stats">
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="24">0</span></div><div class="lbl">de <b>24 story points</b> = capacidad exacta, sin sobre-compromiso</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="2">0</span></div><div class="lbl"><b>semanas</b> de duración con Planning Poker (Fibonacci)</div></div>
+          <div class="stat a"><div class="big grad"><span class="cnt" data-t="4">0</span></div><div class="lbl"><b>integrantes</b>, cada historia con responsable asignada</div></div>
+        </div>
+      </div>
+      <div class="marquee" data-words="SPRINT GOAL ◆ 24 SP COMPROMETIDOS ◆ PLANNING POKER ◆ 2 SEMANAS ◆ RESPONSABLES ASIGNADAS"></div>
+    </section>
+
+    <!-- 9 · RIESGOS -->
+    <section class="slide s8" style="--acc:#f45b8f;--acc2:#8b5cf6;--acc3:#38e0c8">
+      <div class="ebadge">ENTREGABLE 7 · <b>MATRIZ DE RIESGOS</b></div>
       <div class="blob" data-depth="40" style="width:360px;height:360px;background:var(--pink);top:-80px;right:-50px;opacity:.15"></div>
       <div class="content">
-        <span class="kicker a">Punto 5 · Riesgos</span>
-        <h2 class="a">Riesgos <span class="serif grad">regulatorios y de IA</span></h2>
+        <span class="kicker a">Matriz de riesgos · 10 riesgos, estos son los críticos</span>
+        <h2 class="a" style="font-size:clamp(2.2rem,4.6vw,3.8rem)">Cinco reguladores <span class="serif grad">están mirando</span></h2>
         <div class="seclist">
-          <div class="sec a"><span class="ic">⚖️</span><div><b>Asesoría no autorizada</b><span>Recomendaciones de IA sin supervisión → SUGEVAL. Mitigación: supervisión humana y advertencias.</span></div></div>
-          <div class="sec a"><span class="ic">🧮</span><div><b>Sesgo crediticio</b><span>Préstamos con IA → SUGEF. Mitigación: modelo auditable y pruebas de equidad.</span></div></div>
-          <div class="sec a"><span class="ic">🔒</span><div><b>Datos sensibles</b><span>Biometría sin consentimiento → PRODHAB, Ley 8968. Mitigación: consentimiento y cifrado.</span></div></div>
-          <div class="sec a"><span class="ic">🚫</span><div><b>Cierre automático</b><span>Liquidaciones erróneas → MEIC. Mitigación: confirmación en dos pasos.</span></div></div>
-          <div class="sec a"><span class="ic">💸</span><div><b>Lavado de activos</b><span>Transferencias sin control → Ley 7786. Mitigación: controles KYC/AML.</span></div></div>
-          <div class="sec a"><span class="ic">🏗️</span><div><b>Deuda técnica</b><span>Kubernetes vs Azure se contradicen. Mitigación: un spike para decidir la nube.</span></div></div>
+          <div class="sec a"><span class="ic">⚖️</span><div><b>Asesoría no autorizada <small>SUGEVAL</small></b><span>IA recomendando inversiones sin supervisión humana. <em>Mitigación: asesor certificado, solo carteras autorizadas y advertencias visibles.</em></span></div></div>
+          <div class="sec a"><span class="ic">🧮</span><div><b>Sesgo crediticio <small>SUGEF</small></b><span>Préstamos preaprobados por IA que podrían discriminar. <em>Mitigación: modelo auditable y explicable, con pruebas de equidad.</em></span></div></div>
+          <div class="sec a"><span class="ic">🔒</span><div><b>Datos biométricos <small>PRODHAB · LEY 8968</small></b><span>Reconocimiento facial sin consentimiento informado. <em>Mitigación: consentimiento, cifrado y PIN alternativo.</em></span></div></div>
+          <div class="sec a"><span class="ic">🚫</span><div><b>Cierre automático <small>MEIC</small></b><span>Liquidar contratos "sin intervención humana" genera reclamos. <em>Mitigación: confirmación en dos pasos y reversibilidad.</em></span></div></div>
+          <div class="sec a"><span class="ic">💸</span><div><b>Lavado de activos <small>LEY 7786</small></b><span>Transferencias internacionales sin controles. <em>Mitigación: KYC/AML, límites y reportes.</em> La IA omitió esta ley: la agregó el equipo.</span></div></div>
+          <div class="sec a"><span class="ic">🏗️</span><div><b>Contradicción técnica <small>ARQUITECTURA</small></b><span>Kubernetes y migrar a Azure pueden chocar entre sí. <em>Mitigación: un spike para decidir la nube antes de construir.</em></span></div></div>
         </div>
       </div>
       <div class="marquee" data-words="SUGEVAL ◆ SUGEF ◆ PRODHAB · LEY 8968 ◆ MEIC ◆ LEY 7786 ◆ GOBERNANZA DE IA"></div>
     </section>
 
-    <!-- 9 · EVIDENCIA IA -->
-    <section class="slide s8" style="--acc:#7c5cff;--acc2:#38e0c8;--acc3:#f5b544">
-      <img class="gif-corner" src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" loading="lazy" alt="" style="width:300px;bottom:11vh;right:5vw;transform:rotate(-2deg)">
+    <!-- 10 · EVIDENCIA Y VALIDACIÓN DE IA -->
+    <section class="slide s9" style="--acc:#7c5cff;--acc2:#38e0c8;--acc3:#f5b544">
+      <div class="ebadge">ENTREGABLES 2 Y 3 · <b>EVIDENCIA DE IA + VALIDACIÓN HUMANA</b></div>
       <div class="blob" data-depth="45" style="width:380px;height:380px;background:var(--snow);bottom:-90px;left:-60px;opacity:.14"></div>
-      <div class="content two">
-        <div>
-          <span class="kicker a">El uso de la IA</span>
-          <h2 class="a">IA que <span class="serif grad">propone</span>, equipo que <span class="serif grad">decide</span></h2>
-          <p class="a">Usamos <span class="hl">Google Gemini</span> como apoyo, actuando como Product Owner y Agile Coach. Cada respuesta se validó contra Scrum, PMBOK 8 y la ley.</p>
-          <ul class="clean">
-            <li class="a">La IA <span class="hl">estructura y revisa</span>; el equipo valida</li>
-            <li class="a">Ningún ítem entra al backlog <span class="hl">sin revisión humana</span></li>
-            <li class="a">Los <span class="hl">prompts</span> quedan documentados como evidencia</li>
-          </ul>
+      <div class="content">
+        <span class="kicker a">Uso de IA · Google Gemini + criterio del equipo</span>
+        <h2 class="a" style="font-size:clamp(2.2rem,4.6vw,3.8rem)">La IA <span class="serif grad">propone</span>, el equipo <span class="serif grad">decide</span></h2>
+        <p class="a" style="max-width:1050px">Usamos Gemini con roles de <span class="hl">Product Owner Senior</span> y <span class="hl">Agile Coach</span>. Cada prompt y respuesta quedó documentado en el Anexo A del informe, junto con lo que aceptamos y lo que corregimos:</p>
+        <div class="iacols">
+          <div class="iacol ok a"><h3>✓ La IA acertó</h3><ul>
+            <li><span class="m">✓</span><span>Detectó la <b>duplicidad PB03/PB08</b> y clasificó los habilitadores técnicos fuera del backlog comercial.</span></li>
+            <li><span class="m">✓</span><span>Subió <b>PB10 a prioridad máxima</b> por ser requisito de cumplimiento.</span></li>
+            <li><span class="m">✓</span><span>Citó <b>SUGEVAL, SUGEF, PRODHAB y MEIC</b>, y propuso crear el comité de gobernanza de IA.</span></li>
+          </ul></div>
+          <div class="iacol fix a"><h3>✎ El equipo corrigió</h3><ul>
+            <li><span class="m">+</span><span>Agregó la <b>Ley 7786</b> de lavado de activos, que la IA omitió por completo.</span></li>
+            <li><span class="m">+</span><span>Detectó el <b>solapamiento PB05/PB13</b>: dos funciones con el mismo motor de IA.</span></li>
+            <li><span class="m">+</span><span>Mapeó las <b>dependencias de autenticación</b> que bloqueaban los pagos.</span></li>
+          </ul></div>
         </div>
-        <div class="card tilt a" style="padding:1.8rem 1.6rem">
-          <span class="ic">🤝</span>
-          <h3 style="color:var(--ice);margin-bottom:.5rem">Aporte y corrección</h3>
-          <p style="font-size:1.02rem">Gemini citó <b style="color:var(--snow2)">SUGEVAL, SUGEF, PRODHAB y MEIC</b>; el equipo verificó y <b style="color:var(--snow2)">añadió la Ley 7786</b> de lavado que la IA omitió. La velocidad de la IA + el criterio humano = mejor entregable.</p>
-        </div>
+        <p class="lead a" style="margin-top:1.6rem;text-align:center">Nada entró al backlog <span class="serif grad">sin revisión humana</span>.</p>
       </div>
-      <div class="marquee" data-words="GEMINI ◆ VALIDACIÓN HUMANA OBLIGATORIA ◆ PROMPTS COMO EVIDENCIA ◆ SIN COPIAR Y PEGAR"></div>
+      <div class="marquee" data-words="GEMINI ◆ PROMPTS DOCUMENTADOS ◆ VALIDACIÓN HUMANA OBLIGATORIA ◆ SIN COPIAR Y PEGAR"></div>
     </section>
 
-    <!-- 10 · CONCLUSIONES -->
-    <section class="slide center s9" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#f5b544">
-      <img class="gif-corner" src="https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif" loading="lazy" alt="" style="width:240px;top:8vh;left:4vw;transform:rotate(-3deg)">
+    <!-- 11 · CONCLUSIONES -->
+    <section class="slide center s10" style="--acc:#2dd4a7;--acc2:#38e0c8;--acc3:#f5b544">
+      <div class="ebadge">ENTREGABLE 8 · <b>CONCLUSIONES EJECUTIVAS</b></div>
       <div class="blob" data-depth="30" style="width:420px;height:420px;background:var(--mint);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.1"></div>
       <div class="content">
-        <span class="kicker a">Cierre</span>
-        <h2 class="a">Recomendación a la Junta</h2>
+        <span class="kicker a">Recomendación a la Junta Directiva</span>
+        <h2 class="a">No liberar el presupuesto de IA — <span class="serif grad">todavía</span></h2>
         <div class="grid g3" style="margin-top:1.6rem">
-          <div class="card tilt a"><span class="ic">⛔</span><h3>No liberar aún</h3><p>El presupuesto de IA (PB05, PB13) y del cierre express (PB07) hasta estabilizar lo transaccional.</p></div>
-          <div class="card tilt a"><span class="ic">🥇</span><h3>Primero lo básico</h3><p>SINPE, saldos, servicios y auditoría regulatoria: la base que sostiene todo.</p></div>
-          <div class="card tilt a"><span class="ic">🛡️</span><h3>Gobernanza de IA</h3><p>Un comité técnico-legal que audite los modelos antes de llevarlos a producción.</p></div>
+          <div class="card tilt a"><span class="ic">🥇</span><h3>1 · Primero lo básico</h3><p>Estabilizar lo transaccional: SINPE, saldos, servicios públicos y las bitácoras de auditoría que exige la ley. Esa es la base que sostiene todo lo demás.</p></div>
+          <div class="card tilt a"><span class="ic">🛡️</span><h3>2 · Gobernanza de IA</h3><p>Crear un Comité Técnico-Legal que audite los modelos de inversión y crédito antes de llevarlos a producción, con aval de Riesgo, Legal y Cumplimiento.</p></div>
+          <div class="card tilt a"><span class="ic">🏗️</span><h3>3 · Decidir la arquitectura</h3><p>Resolver la contradicción Kubernetes vs Azure con un spike técnico antes de comprometer más desarrollo, para no acumular deuda técnica.</p></div>
         </div>
-        <p class="lead a" style="margin-top:2rem">Con el backlog refinado, FinNova NextGen puede avanzar con un <span class="serif grad">riesgo controlado</span>.</p>
+        <p class="lead a" style="margin-top:2rem">Con el backlog depurado y estas tres condiciones, FinNova NextGen avanza con <span class="serif grad">riesgo controlado</span>.</p>
       </div>
-      <div class="marquee" data-words="NO LIBERAR AÚN ◆ PRIMERO LO BÁSICO ◆ GOBERNANZA DE IA ◆ RIESGO CONTROLADO"></div>
+      <div class="marquee" data-words="PRIMERO LO BÁSICO ◆ GOBERNANZA DE IA ◆ SPIKE DE ARQUITECTURA ◆ RIESGO CONTROLADO"></div>
     </section>
 
-    <!-- 11 · GRACIAS -->
-    <section class="slide center s10" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#7c5cff">
-      <img class="gif-bg" src="https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif" loading="lazy" alt="" style="opacity:.26">
+    <!-- 12 · GRACIAS -->
+    <section class="slide center s11" style="--acc:#f45b8f;--acc2:#f5b544;--acc3:#7c5cff">
+      <img class="gif-bg" src="https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif" loading="lazy" alt="" style="opacity:.24">
       <div class="content">
-        <span style="font-size:3.6rem;display:inline-block" class="floaty a">◆</span>
+        <span style="font-size:3.4rem;display:inline-block" class="floaty a">◆</span>
         <h1 class="thanks-title"><span class="grad split" id="thanksTitle">¡Gracias!</span></h1>
         <p class="lead a">¿Preguntas?</p>
-        <p class="a" style="margin-top:1.8rem;font-size:.95rem"><b style="color:var(--ice)">Grupo 8</b> · Nairyth Araya Torres · Monserrath Piedra La Touche · Carolina Solano Chinchilla · María Catalina Valverde Arroyo<br>
-        SC-505 Administración de Proyectos — Universidad Fidélitas · Profesor: <b style="color:var(--snow2)">David Antonio Hernández Araya</b><br>
-        <span style="color:var(--snow2)">Caso FinNova Group · Auditoría de Product Backlog con IA (Gemini) · 2026</span></p>
+        <p class="a" style="margin-top:1.8rem;font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.9"><b style="color:var(--ice)">Grupo 8</b><br>
+        Nairyth Valeria Araya Torres · Monserrath Piedra La Touche<br>Carolina Solano Chinchilla · María Catalina Valverde Arroyo<br>
+        <span style="color:var(--snow2)">SC-505 Administración de Proyectos · Universidad Fidélitas · Prof. David Antonio Hernández Araya · 2026</span></p>
       </div>
       <div class="marquee" data-words="¡GRACIAS! ◆ ¿PREGUNTAS? ◆ GRUPO 8 ◆ FINNOVA NEXTGEN ◆ ¡GRACIAS!"></div>
     </section>
@@ -453,7 +496,7 @@ ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--snow)}
 <button class="nav-btn prev" onclick="go(cur-1)" aria-label="Anterior">‹</button>
 <button class="nav-btn next" onclick="go(cur+1)" aria-label="Siguiente">›</button>
 <div class="dots" id="dots"></div>
-<div class="counter-badge" id="cbadge">1 / 11</div>
+<div class="counter-badge" id="cbadge">1 / 12</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
@@ -555,7 +598,7 @@ document.querySelectorAll('.tilt').forEach(card=>{
     const r=card.getBoundingClientRect();
     const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
     card.style.setProperty('--mx',px*100+'%');card.style.setProperty('--my',py*100+'%');
-    if(hasGsap)gsap.to(card,{rotateY:(px-.5)*14,rotateX:(.5-py)*10,y:-6,duration:.4,ease:'power2.out',transformPerspective:700});
+    if(hasGsap)gsap.to(card,{rotateY:(px-.5)*10,rotateX:(.5-py)*7,y:-5,duration:.4,ease:'power2.out',transformPerspective:700});
   });
   card.addEventListener('mouseleave',()=>{ if(hasGsap)gsap.to(card,{rotateY:0,rotateX:0,y:0,duration:.7,ease:'elastic.out(1,.5)'}); });
 });
@@ -572,17 +615,14 @@ function animateCounters(sl){
 
 /* demo typing (criterios BDD) */
 const sqlLines=[
- [['cm','// Prompt a Gemini — Agile Coach']],
- [['kw','Reescribe'],['t',' estos criterios en formato']],
- [['fn','Dado – Cuando – Entonces'],['t',', medibles']],
- [['t','y verificables por QA.']],
- [['cm','// Resultado validado por el equipo:']]
-];
-const resultRows=[
- ['ESCENARIO','ESTADO','META'],
- ['Consulta de saldo','✓ Pasa','≤ 1.8 s'],
- ['Sin disponibilidad','✓ Maneja error','mensaje claro'],
- ['Cierre de cuenta','✓ Valida saldo','2 pasos']
+ [['cm','// HU-01 · consulta de saldo']],
+ [['kw','DADO '],['t','que el usuario está autenticado,']],
+ [['kw','CUANDO '],['t','consulta su saldo,']],
+ [['kw','ENTONCES '],['t','lo ve en '],['fn','≤ 1.8 s'],['t',' con disponibilidad '],['fn','99.9%'],['t','.']],
+ [['cm','// HU-06 · cierre de cuenta']],
+ [['kw','DADO '],['t','saldo en cero y sin cargos en tránsito,']],
+ [['kw','CUANDO '],['t','confirma en '],['str','dos pasos'],['t',',']],
+ [['kw','ENTONCES '],['t','pasa a liquidación en '],['fn','≤ 24 h hábiles'],['t','.']]
 ];
 let typingTimer=[];
 function runTyping(){
@@ -595,7 +635,7 @@ function runTyping(){
   let delay=300;
   sqlLines.forEach((segs,li)=>{
     const flat=[];
-    segs.forEach(([cls,txt])=>[...txt].forEach(ch=>flat.push([cls,ch])));
+    segs.forEach(seg=>{const cls=seg[0],txt=seg[1]??'';[...txt].forEach(ch=>flat.push([cls,ch]));});
     flat.forEach(([cls,ch])=>{
       typingTimer.push(setTimeout(()=>{
         cursor.remove();
@@ -604,21 +644,10 @@ function runTyping(){
         sp.textContent=ch;lineEls[li].appendChild(sp);
         lineEls[li].appendChild(cursor);
       },delay));
-      delay+=16+Math.random()*20;
+      delay+=13+Math.random()*16;
     });
-    delay+=140;
+    delay+=120;
   });
-  typingTimer.push(setTimeout(()=>{
-    cursor.remove();
-    const res=document.createElement('div');res.className='result-rows';body.appendChild(res);
-    resultRows.forEach((r,i)=>{
-      const row=document.createElement('div');row.className='rrow'+(i===0?' h':'');
-      r.forEach(cell=>{const c=document.createElement('span');c.textContent=cell;row.appendChild(c);});
-      res.appendChild(row);
-      if(hasGsap)gsap.to(row,{opacity:1,x:0,duration:.5,delay:.15*i,ease:'power2.out',startAt:{x:-16}});
-      else row.style.opacity=1;
-    });
-  },delay+250));
 }
 
 /* confetti */
@@ -647,23 +676,20 @@ function playIntro(n){
   if(!hasGsap)return;
   gsap.killTweensOf(sl.querySelectorAll('.a,.char'));
   const els=sl.querySelectorAll('.a');
-  gsap.fromTo(els,{opacity:0,y:46},{opacity:1,y:0,duration:.85,ease:'power3.out',stagger:.09,delay:.15,overwrite:'auto'});
+  gsap.fromTo(els,{opacity:0,y:46},{opacity:1,y:0,duration:.85,ease:'power3.out',stagger:.08,delay:.15,overwrite:'auto'});
   const chars=sl.querySelectorAll('.char');
   if(chars.length){
     gsap.fromTo(chars,{opacity:0,yPercent:110,rotateX:-80},
       {opacity:1,yPercent:0,rotateX:0,duration:1,ease:'back.out(1.6)',stagger:.045,delay:.1});
   }
   if(n===0&&window.drawEmblem)window.drawEmblem();
-  if(n===2)animateCounters(sl);
-  if(n===4){const rail=document.getElementById('archPath');
-    if(rail){const len=rail.getTotalLength();rail.style.strokeDasharray=len;
-      gsap.fromTo(rail,{strokeDashoffset:len},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut',delay:.3});}}
+  animateCounters(sl);
   if(n===5)runTyping();
   if(n===6){const rail=document.getElementById('tlRail');
     gsap.fromTo(rail,{scaleY:0},{scaleY:1,duration:1.5,ease:'power2.inOut',delay:.3});}
-  if(n===7){gsap.fromTo(sl.querySelectorAll('.sec'),{opacity:0,x:i=>i%2?60:-60},
+  if(n===8){gsap.fromTo(sl.querySelectorAll('.sec'),{opacity:0,x:i=>i%2?60:-60},
       {opacity:1,x:0,duration:.8,ease:'power3.out',stagger:.1,delay:.2});}
-  if(n===10)confettiBurst(sl);
+  if(n===11)confettiBurst(sl);
 }
 
 if(hasGsap){gsap.set(document.querySelectorAll('.a,.char'),{opacity:0});}
